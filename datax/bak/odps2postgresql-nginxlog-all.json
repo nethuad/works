@@ -1,0 +1,71 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "odpsreader",
+                    "parameter": {
+                        "accessId": "LTAIgyrMA3eSBfuR",
+                        "accessKey": "Itl4aim0pkD4EYJ0Ustyms0oMiCJAv",
+                        "project": "xsd_xsd",
+                        "table": "nginxlog",
+                        "partition": ["d=*"],
+                        "column": ["topic",
+                            "client",
+                            "host",
+                            "http_referer",
+                            "http_user_agent",
+                            "protocol",
+                            "proxy",
+                            "request_method",
+                            "size",
+                            "status",
+                            "timestamp",
+                            "url",
+                            "d"],
+                        "splitMode": "record",
+                        "odpsServer": "http://service.odps.aliyun.com/api",
+                        "packageAuthorizedProject": ""
+                    }
+                },
+                "writer": {
+                    "name": "postgresqlwriter",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": ["nginxlog"]
+                            }
+                        ],
+                        "column": ["topic",
+                            "client",
+                            "host",
+                            "http_referer",
+                            "http_user_agent",
+                            "protocol",
+                            "proxy",
+                            "request_method",
+                            "size",
+                            "status",
+                            "timestamp",
+                            "url",
+                            "d"],
+                        "preSql": ["delete from nginxlog"],
+                        "postSql": []
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        }
+    }
+}
+
+
+
+

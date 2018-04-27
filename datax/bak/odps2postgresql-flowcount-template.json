@@ -1,0 +1,48 @@
+{
+    "job": {
+        "content": [
+            {
+                "reader": {
+                    "name": "odpsreader",
+                    "parameter": {
+                        "accessId": "LTAIgyrMA3eSBfuR",
+                        "accessKey": "Itl4aim0pkD4EYJ0Ustyms0oMiCJAv",
+                        "project": "xsd_xsd",
+                        "table": "flow_count",
+                        "partition": ["d=*"],
+                        "column": ["pv",
+                            "uv",
+                            "d"],
+                        "splitMode": "record",
+                        "odpsServer": "http://service.odps.aliyun.com/api",
+                        "packageAuthorizedProject": ""
+                    }
+                },
+                "writer": {
+                    "name": "postgresqlwriter",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": ["flow_count"]
+                            }
+                        ],
+                        "column": ["pv",
+                            "uv",
+                            "d"],
+                        "preSql": ["delete from flow_count"],
+                        "postSql": []
+                    }
+                }
+            }
+        ],
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        }
+    }
+}
+
