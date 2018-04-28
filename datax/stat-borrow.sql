@@ -2,19 +2,35 @@
 
 drop table IF EXISTS borrow_wide_tmp;
 create table borrow_wide_tmp as 
-select id as borrow_id,loaner_id,post_id,post_time,name,logo,category,status,full_time
-,amount,interest_total,rate,is_display,invest_process
-,repay_process,is_be_overdue,cycle_type,cycle,repay_type,fund_cycle_type
-,fund_cycle,deadline,is_reward,reward_rate,loaner_fee_total
-,interest_fee_total,loaner_cost_id,ip,auditing_member_id,auditing_remark
-,description,issues,portal_weight,issued,date_created,last_updated
-,created_by,updated_by,version,last_payment,is_vip,fund_deadline
-,last_check_fail_date,last_check_success_date,check_result_status,next_repay_time
-,min_invest_day,interest_type,is_settlement,trade_out,surplus
-,is_pause,need_settlement_date,loaner_total,trade_in,invest_max,invest_min
-,settlement_date,keyword,is_be_overdueing,run_off_date,receipt_id,assure_type
-,assure_description,assure_company,category_type,contract,description_for_seo
-from borrow a 
+select id as borrow_id,loaner_id,name
+,amount
+,rate,interest_total
+,loaner_fee_total,loaner_total
+,fund_deadline,min_invest_day
+,to_char(fund_deadline::timestamp-(min_invest_day || ' days')::interval,'YYYY-MM-DD HH24:MI:SS') as start_time
+,full_time
+,date_trunc('day', full_time::timestamp) as full_day
+,EXTRACT(EPOCH FROM (full_time::TIMESTAMP- (fund_deadline::timestamp-(min_invest_day || ' days')::interval) )) /60 as full_minutes
+,category
+,case when category='ordinary' then '担保标' when category='transfer' then '信用标' when category='worth' then '净值标' else '其他'  end  as category_cn
+
+,cycle
+,cycle_type
+,case when cycle_type='1' then '天' when cycle_type='2' then '月' else '其他'  end as cycle_type_cn
+,case when cycle_type='1' then '天' when cycle_type='2' then '月' else '其他'  end || '_' || cycle as borrow_type
+
+,interest_type
+,case when interest_type='0' then '投标计息' when interest_type='1' then '满标计息' else '其他'  end as interest_type_cn
+
+,repay_type
+,case when repay_type=0 then '未知' when repay_type=1 then '一次性还款' when repay_type=2 then '每月等额本息' when repay_type=3 then '按月还息'
+   when repay_type=4 then '按季还息' when repay_type=5 then '半年还本息' else '' end as repay_type_cn
+
+,status
+,case when status =0 then '待审核' when status =1 then '投标' when status =2 then '未通过审核' when status =3 then '流标' when status =4 then '满标'
+   when status =5 then '还款中' when status =6 then '完成' else '' end as status_cn
+from borrow 
+where full_time>='2017-01-01' and full_time < to_char(now(),'YYYY-MM-DD')
 ;
 
 drop table IF EXISTS borrow_wide_bak;
@@ -22,17 +38,28 @@ alter table borrow_wide rename to borrow_wide_bak;
 alter table borrow_wide_tmp rename to borrow_wide;
 
 
+
+
+
+
+-- 用户投标信息
+
+
+
+/*
+full_day =  date_trunc('day', full_time::timestamp)
+ 
+ */
+
 /* borrow 标信息
-id as 标号
-loaner_id as 借款人id
-name as 标名称
+
+有效标判断 : where status in (1,4,5,6) 
 
 status READY("待审核"), PASS("投标"), NO_PASS("未通过审核"), RUN_OFF("流标"), FULL("满标"), REPAY("还款中"), COMPLETE("完成")，
 
 CYCLE_TYPE：  NONE("未知"), DAY("天"), MONTH("个月")，
 
 INTEREST_TYPE：INVEST("投标计息", "即刻投标即刻计息"), FULL("满标计息", "标满后开始计息")，
-
 loanerTotal：借款管理费
 
 REPAY_TYPE：
@@ -58,12 +85,7 @@ interesttype: 计息方式
 DATEADD(DAY, -[min_invest_day],[fund_deadline]) as starttime 开始投标日期
 
 
-有效标判断 : where status in (1,4,5,6) and is_display='1'
-
-
 累计投资总额：历史固定值（不在库里）：22540200，投标记录的+余额连盈的（ select capital, investor_id, subscription_time as time from balance_invest_detail）
-
-
 
 ,case when category='ordinary' then '担保标' when category='transfer' then '信用标' when category='worth' then '净值标' else '其他'  end '产品名称'
 ,full_time as 满标时间

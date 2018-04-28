@@ -1,7 +1,7 @@
---用户宽表 member_wide
+--用户宽表 member_base
 
-drop table IF EXISTS member_wide_tmp;
-create table member_wide_tmp as 
+drop table IF EXISTS member_base_tmp;
+create table member_base_tmp as 
 select a.id as member_id,a.uname,reg_time
 ,is_valid_idcard,is_admin
 ,case when reg_way like 'Android%' then 'Android' else reg_way end as reg_way
@@ -13,9 +13,9 @@ left outer join recommend b on a.id=b.member_id
 left outer join member_inner c on a.id=c.member_id
 ;
 
-drop table IF EXISTS member_wide_bak;
-alter table member_wide rename to member_wide_bak;
-alter table member_wide_tmp rename to member_wide;
+drop table IF EXISTS member_base_bak;
+alter table member_base rename to member_base_bak;
+alter table member_base_tmp rename to member_base;
 
 
 
