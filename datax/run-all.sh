@@ -31,6 +31,12 @@ sh run-repayment_detail.sh $rdate_pt
 # repayment_history
 sh run-repayment_history.sh $rdate_pt
 
+# receipt_detail
+sh run-receipt_detail.sh $rdate_pt
+
+# receipt_history
+sh run-receipt_history.sh $rdate_pt
+
 # mold
 sh run-mold.sh $rdate_pt
 
@@ -50,15 +56,20 @@ sh run-account_recharge.sh $rdate_pt
 # account_withdraw
 sh run-account_withdraw.sh $rdate_pt
 
+# member_info
+sh run-member_info.sh $rdate_pt
+
+# member_signin
+sh run-member_signin.sh $rdate_pt
 
 # statistics
 sh stat-all.sh $rdate_pt
-
 
 # report
 
 sh report-all.sh $rdate_pt
 
-
+# portrait
+sh portrait-all.sh $rdate_pt
 
 

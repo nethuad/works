@@ -3,12 +3,20 @@
 drop table IF EXISTS borrow_invest_wide_tmp;
 create table borrow_invest_wide_tmp as 
 select *
-,case when is_member_inner =1 then '内部' 
+,case when is_member_inner =1 then '内投' 
  when is_recommended=1 and invest_order=1 then '推荐首投'
  when  is_recommended=1 and invest_order>1 then '推荐复投'
  when is_recommended=0 and invest_order=1 then '普通首投'
  when  is_recommended=0 and invest_order>1 then '普通复投'
  end as invest_type
+,case when invest_dow=0 then '星期日' 
+when invest_dow=1 then '星期一'
+when invest_dow=2 then '星期二'
+when invest_dow=3 then '星期三'
+when invest_dow=4 then '星期四'
+when invest_dow=5 then '星期五'
+when invest_dow=6 then '星期六'
+end as dayofweek
 from (
 select *
 ,ROW_NUMBER() over(partition by investor_id order by date_created) as invest_order
@@ -20,6 +28,9 @@ select a.id,a.borrow_id,a.investor_id,a.capital,interest,loan_fee,invest_way,a.s
 ,m.is_recommended
 ,a.date_created
 ,date_trunc('day', a.date_created::timestamp) as invest_day
+,date_trunc('hour', a.date_created::timestamp) as invest_hour
+,EXTRACT(dow FROM a.date_created::timestamp) as invest_dow
+,EXTRACT(HOUR FROM a.date_created::timestamp) as invest_hod
 from borrow_invest a 
 inner join borrow_wide b on a.borrow_id = b.borrow_id
 left outer join member_base m on a.investor_id = m.member_id
