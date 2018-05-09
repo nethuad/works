@@ -65,11 +65,13 @@ sh run-member_signin.sh $rdate_pt
 # statistics
 sh stat-all.sh $rdate_pt
 
+# portrait (手动执行)
+sh portrait-all.sh $rdate_pt
+
 # report
 
 sh report-all.sh $rdate_pt
 
-# portrait
-sh portrait-all.sh $rdate_pt
+
 
 

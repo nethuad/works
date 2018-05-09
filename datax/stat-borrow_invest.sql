@@ -36,7 +36,8 @@ inner join borrow_wide b on a.borrow_id = b.borrow_id
 left outer join member_base m on a.investor_id = m.member_id
 ) a 
 ) a 
-where date_created>='2017-01-01' and date_created < to_char(now(),'YYYY-MM-DD')
+--where date_created>='2017-01-01' and date_created < to_char(now(),'YYYY-MM-DD')
+where date_created < to_char(now(),'YYYY-MM-DD')
 ;
 
 drop table IF EXISTS borrow_invest_wide_bak;

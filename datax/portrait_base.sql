@@ -31,10 +31,9 @@ group by referrer_id
 
 
 -- 用户宽表
-/* drop table if exists p_member_wide;
+drop table if exists p_member_wide;
 create table p_member_wide as
 select a.member_id,reg_time,is_valid_idcard,is_admin,reg_way,is_recommended,is_inner
-,s.signin_date
 ,b.birthday,b.gender
 ,i.last_invest_date,invest_times,invest_capital,oninvest_capital
 ,invest_month_2_capital,invest_month_3_capital,invest_month_6_capital,invest_month_12_capital
@@ -46,20 +45,69 @@ from member_wide a
 left outer join member_info b on a.member_id= b.member_id
 left outer join p_member_invest i on a.member_id = i.investor_id
 left outer join p_member_recommend_invest ri on a.member_id = ri.recommender_id 
-left outer join user_signin s on a.member_id = s.member_id
-; */
+; 
 
 -- select * from p_member_wide where member_id in (980723,41400);
 
+-- 投资用户-画像数据
+drop table if exists p_member_draw;
+create table p_member_draw as
+select member_id
+,reg_time,EXTRACT(EPOCH FROM (now()-reg_time::TIMESTAMP)) /3600/24 as reg_days
+,is_valid_idcard
+,is_admin,reg_way
+,is_recommended
+,is_inner
+,birthday,EXTRACT(EPOCH FROM (now()-birthday::TIMESTAMP)) /3600/24/365 as age
+,gender,case when gender ='男' then 1 when gender='女' then 0 else -1 end as sex
+,last_invest_date,EXTRACT(EPOCH FROM (now()-last_invest_date::TIMESTAMP)) /3600/24 as last_invest_days
+,invest_times
+,invest_capital
+,oninvest_capital
+,invest_month_2_capital
+,invest_month_3_capital
+,invest_month_6_capital
+,invest_month_12_capital
+,is_recommender
+,recommended_num
+,recommended_valid_num
+,recommended_invest_capital
+from p_member_wide
+where is_admin=false
+and invest_times>0
+;
 
 
 
-
-/* select member_id,birthday
-,EXTRACT(EPOCH FROM (now()-birthday::TIMESTAMP)) /3600/24/365 as age
-,case when gender ='男' then 1 when gender='女' then 0 else -1 end as gender
-from member_info where member_id = 980723 */
-
+-- 量化数据，只分析投资客户
+drop table if exists p_member_mode;
+create table p_member_mode as
+select member_id
+,reg_time,reg_days
+,is_valid_idcard
+,is_admin,reg_way
+,is_recommended
+,is_inner
+,birthday,age
+,gender,sex
+,last_invest_date,last_invest_days
+,invest_times
+,invest_capital
+,oninvest_capital
+,invest_month_2_capital
+,invest_month_3_capital
+,invest_month_6_capital
+,invest_month_12_capital
+,is_recommender
+,recommended_num
+,recommended_valid_num
+,recommended_invest_capital
+from p_member_draw
+where is_inner=0 and is_admin=false
+and invest_times>0
+and birthday is not null
+and gender in ('男','女')
+;
 
 
 

@@ -1,3 +1,22 @@
+-- 信用卡还款数量 
+use xueshandai
+select status,count(1) as c from [credit_card_payment] group by status
+--status	c
+--3	456
+--4	65715
+
+select count(1) as c ,count(distinct member_id) as uv from credit_card_payment
+--c	uv
+--66171	50893
+
+select convert(varchar(7),date_created,120) as ym
+,case when cash<1000 then '小于1000' else '大于等于1000' end as paytype
+,count(1) as c
+from credit_card_payment
+group by convert(varchar(7),date_created,120),case when cash<1000 then '小于1000' else '大于等于1000' end
+
+
+
 --信用卡还款推荐奖励分析
 
 select capital_type

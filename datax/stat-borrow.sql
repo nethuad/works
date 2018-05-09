@@ -30,7 +30,7 @@ select id as borrow_id,loaner_id,name
 ,case when status =0 then '待审核' when status =1 then '投标' when status =2 then '未通过审核' when status =3 then '流标' when status =4 then '满标'
    when status =5 then '还款中' when status =6 then '完成' else '' end as status_cn
 from borrow 
-where full_time>='2017-01-01' and full_time < to_char(now(),'YYYY-MM-DD')
+--where full_time>='2017-01-01' and full_time < to_char(now(),'YYYY-MM-DD')
 ;
 
 drop table IF EXISTS borrow_wide_bak;
