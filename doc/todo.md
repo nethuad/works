@@ -30,3 +30,7 @@ http://wiki.mbalib.com/wiki/%E5%8D%A1%E6%96%B9%E5%88%86%E5%B8%83
 
 
 https://www.cnblogs.com/jihua/archive/2015/12/13/taiyang.html
+
+上海百帝
+
+商标分类  https://baike.baidu.com/item/%E5%95%86%E6%A0%87%E5%88%86%E7%B1%BB%E8%A1%A8/9204053?fr=aladdin
