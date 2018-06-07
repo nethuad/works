@@ -65,6 +65,13 @@ d varchar(100)
 );
 
 
+CREATE TABLE nginxlog_flow_mul_count (
+pv bigint,
+uv bigint,
+ip3uv bigint,
+d varchar(100)
+);
+
 CREATE TABLE nginxlog_referer_host_count (
 referer_host varchar(100),
 pv bigint,

@@ -26,6 +26,10 @@ select a.*
 ,c.capital as second_invest_capital
 ,c.cycle_type as second_cycle_type
 ,c.cycle as second_cycle
+,c3.invest_date as third_invest_date
+,c3.capital as third_invest_capital
+,c3.cycle_type as third_cycle_type
+,c3.cycle as third_cycle
 from ( select investor_id 
 ,max(invest_date) as last_invest_date -- 最后一次投标日期
 ,count(1) as invest_times --投资笔数
@@ -35,11 +39,16 @@ from ( select investor_id
 ,sum(case when cycle_type = 2 and cycle=3 then capital else 0 end)  as invest_month_3_capital -- 投资金额_月3
 ,sum(case when cycle_type = 2 and cycle=6 then capital else 0 end)  as invest_month_6_capital -- 投资金额_月6
 ,sum(case when cycle_type = 2 and cycle=12 then capital else 0 end)  as invest_month_12_capital -- 投资金额_月12
+,sum((case when cycle_type = 2 then cycle*30 else cycle end)*capital) as invest_capital_days -- 投资金额*天数
+,sum(case when (now()::date -invest_date::timestamp::date) <= 360 then (case when cycle_type = 2 then cycle*30 else cycle end)*capital else 0 end) as invest_capital_days_360 -- 360天内的投资金额*天数
+,sum(case when (now()::date -invest_date::timestamp::date) <= 180 then (case when cycle_type = 2 then cycle*30 else cycle end)*capital else 0 end) as invest_capital_days_180 -- 180天内的投资金额*天数
+,sum(case when (now()::date -invest_date::timestamp::date) <= 90 then (case when cycle_type = 2 then cycle*30 else cycle end)*capital else 0 end) as invest_capital_days_90 -- 90天内的投资金额*天数
 from p_member_invest_base
 group by investor_id
 ) a 
 left outer join (select * from p_member_invest_base where invest_order=1) b on a.investor_id = b.investor_id
 left outer join (select * from p_member_invest_base where invest_order=2) c on a.investor_id = c.investor_id
+left outer join (select * from p_member_invest_base where invest_order=3) c3 on a.investor_id = c3.investor_id -- 第三次投资
 ;
 
 

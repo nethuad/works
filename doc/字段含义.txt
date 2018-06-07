@@ -1,0 +1,221 @@
+
+# membercredit 用户认证
+0-NULL,1-审核中,2-审核通过,3-审核未通过
+reason 失败原因
+
+# customer_detail 用户绑卡操作
+NONE(1,"初始化"),APPLYBIND(2,"申请绑卡"),BIND(3,"绑卡"),UNBIND(4,"解绑"),CHANGE(5,"更换银行卡"),COM(6,"企业开户"),COMB(7,"企业绑卡");
+
+# account_recharge 充值表
+状态 INIT(""), SUBMITTED("已提交"), DOING("处理中"), SUCCESS("成功"), FAILED("失败")
+
+# AccountWithdraw 提现表
+ NONE(""), WAIT_TO_VERIFY("待审核"), PASS_HANDLE("处理中"), NOT_PASS("未通过"), COMPLETE("已提现"), CANCEL("撤销")
+
+# borrow_invest
+status : 0-UN_EFFECTIVE("未生效"), 1-EFFECTIVE("生效"), 2-RUN_OFF("流标"), 3-REPAID("已还款")
+
+back_prize:出借人的奖励，以前使用的一个字段
+
+
+# 借款计划表，针对投资人
+select * from receipt_detail where investor_id=980723 order by borrow_id,need_receipt_time
+
+status : 0-无效，1-待收，2-逾期，4-已还款
+
+# 还款表（borrow_id）
+select * from xueshandai.dbo.repayment_detail where borrow_id=12863 order by need_repayment_time
+display_type=1表示有垫付，displaymoney表示金额
+
+NONE("未生效"), UN_REPAY("待还款"), IS_DUE("逾期"), REPAYING("还款中"), REPAID("已还款")
+
+
+# 实际还款
+repayment_history
+type : NONE("未生效"), ALL("全额垫付"), PART("部分垫付"),
+
+
+# 抽奖活动
+lottery_chance ,
+lottery_award,
+
+# 优惠劵的定义
+card_coupons_batch 批次
+CATEGORY : DISCOUNT_CARD(1,"抵现券"),RED_PACKETS(2,"红包"),INTEREST_RATE(3,"加息劵");
+
+
+# 发放的优惠券
+card_coupons_detail 
+batch_id与card_coupons_batch中的id对应
+status 0-un_use.未使用,1-used.已使用,2-nullify已作废,3-overdue已过期,4-retired已回收,5-coupon_to_cash已返现  (1和5表示使用)
+use_to : borrow_id
+invest_id: 此字段数据不全，仅做参考
+
+
+
+# 现金
+transfer_detail 
+只有cash_flow中的code=transferIn时候，cash_flow.event_source = transfer_detail.id
+
+
+# 第三方存管表
+Third_Prize_Detail
+
+
+# 十人奖励的参考表
+DoubbleSectionAward
+
+
+
+# 六友
+MemberRecommendAward
+
+
+# 累计投资总额
+历史固定值（不在库里）：22540200，投标记录的+余额连盈的（ select capital, investor_id, subscription_time as time from balance_invest_detail）
+
+
+# Transfer_Detail
+capital_type: 
+0- NONE(未知)
+1-ALL_RECHARGE(全额充值)
+
+# cash_flow
+资金流水
+
+way NONE("未知") FREEZE("冻结") THAW("解冻") TURN_IN("转入") TURN_OUT("转出")
+
+
+# 风险测评表
+ member_authentication
+
+
+# 有效账户
+
+select top 10 * from xueshandai.dbo.account_bank where member_id=980723
+operate_status=1 and authenticate_status=2 and auditing_status=1
+
+
+# 存管是否开通
+platform_customer 需要与 account_bank（operate_status=1 and authenticate_status=2 and auditing_status=1）匹配一下，是否合理
+
+
+# overdue_detail
+逾期的每天明细
+
+# credit_card_payment
+信用卡还款 
+status : NONE(""), WAIT_TO_VERIFY("待审核"), PASS_HANDLE("处理中"), NOT_PASS("未通过"), COMPLETE("已还款"), CANCEL("撤销"
+pay_way : ADMIN(1,"人工"), XIANFENG(2,"先锋"),LAKALA(3,"拉卡拉"),YINSHENGBAO(4,"银生宝");
+
+
+
+# repayment_detail
+status： NONE("未生效"), UN_REPAY("待还款"), IS_DUE("逾期"), REPAYING("还款中"), REPAID("已还款")
+
+
+# 坏账标
+select top 10 b.* 
+from repayment_detail a 
+inner join borrow b on a.borrow_id=b.id 
+where b.status in (4,5,6)
+and need_repayment_time<'2018-05-01' and repayment_time is null
+and capital>0
+;
+
+ (5020,5032,5034,5050,11957)
+
+# 逾期90天（含）以上 为不良
+
+# receipt_detail.status 
+0-无效，1-待收，2-逾期，4-已还款
+
+# borrow.status 
+0-READY("待审核"), 1-PASS("投标"), 2-NO_PASS("未通过审核"), 3-RUN_OFF("流标"), 4-FULL("满标"), 5-REPAY("还款中"), 6-COMPLETE("完成")，
+
+# borrow
+有效标判断 : where status in (1,4,5,6) 
+
+# borrow.rate是年化利率，因此利息根据receipt_detail计算
+
+
+/* borrow 标信息
+
+有效标判断 : where status in (1,4,5,6) 
+
+
+CYCLE_TYPE：  NONE("未知"), DAY("天"), MONTH("个月")，
+
+INTEREST_TYPE：INVEST("投标计息", "即刻投标即刻计息"), FULL("满标计息", "标满后开始计息")，
+loanerTotal：借款管理费
+
+REPAY_TYPE：
+NONE("未知", "未定义"), ONCE("一次性还款", "借款人在借款到期时一次性还清借款的本息"),
+        MONTH("每月等额本息", "借款人每月按相等的金额偿还借款本金和利息，其中每月借款利息按月初剩余借款本金计算并逐月结清。"),
+        MONTH_INTEREST("按月还息", "借款人每月支付当月利息，最后一月支付借款本金和当月利息。"),
+        QUARTER_INTEREST("按季还息", "借款人每季度支付当季度利息，最后一个季度支付借款本金和当季度利息。"),
+        HALF_YEAR_INTEREST("半年还本息","每半年利息由雪山基金会支付")
+        
+amount : 借款总金额
+tradeout : 已投资金额
+surplus : 剩余投资金额
+tradein : 已回购金额
+loanFeetotal: 借款管理费率
+loanertotal : 借款管理费
+interestfeetotal： 投资管理费
+loanercost:借款管理费对象
+interesttype: 计息方式
+
+[full_time] 满标日期
+[fund_deadline] 满标的最后期限
+[min_invest_day]
+DATEADD(DAY, -[min_invest_day],[fund_deadline]) as starttime 开始投标日期
+
+
+累计投资总额：历史固定值（不在库里）：22540200，投标记录的+余额连盈的（ select capital, investor_id, subscription_time as time from balance_invest_detail）
+
+,case when category='ordinary' then '担保标' when category='transfer' then '信用标' when category='worth' then '净值标' else '其他'  end '产品名称'
+,full_time as 满标时间
+,amount as 借款本金
+,cycle as 借款期限
+,case when cycle_type='1' then '天' when cycle_type='2' then '月' else '其他'  end '借款期限单位'
+,case when interest_type='0' then '投标计息' when interest_type='1' then '满标计息' else '其他'  end '计息方式'
+,case when repay_type=0 then '未知' 
+when repay_type=1 then '一次性还款'
+when repay_type=2 then '每月等额本息'
+when repay_type=3 then '按月还息'
+when repay_type=4 then '按季还息'
+when repay_type=5 then '半年还本息'
+else ''
+end as 还款方式
+,rate as 利率
+,interest_total as 利息
+,loaner_fee_total as 管理费率,loaner_total as 管理费
+,case when status =0 then '待审核'
+when status =1 then '投标'
+when status =2 then '未通过审核'
+when status =3 then '流标'
+when status =4 then '满标'
+when status =5 then '还款中'
+when status =6 then '完成'
+else '' end as 标状态
+
+
+*/
+
+
+# 积分兑换加息券
+表：card_coupons_batch
+convert_channel:1-积分兑换，2-兑换码兑换，3-活动赠送，4-后台发送，5-积分抽奖 ，6-新手渠道，7-新手首投特权渠道，8-定时任务-加息券
+9-注册赠送奖励，10-后台指定发送
+
+
+# member_query
+短信发送批次查询sql
+
+# notice
+短信通知
+
+
+
+

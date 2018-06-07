@@ -35,6 +35,20 @@ where d=:d
 group by d
 ;
 
+
+DELETE FROM nginxlog_flow_mul_count WHERE d=:d;
+
+insert into nginxlog_flow_mul_count
+select count(1) as pv,count(distinct client) as uv 
+,count(distinct substring(client from '\d+\.\d+\.\d+')) as ip3uv
+,d
+from nginxlog 
+where d=:d
+group by d
+;
+
+
+
 DELETE FROM nginxlog_referer_host_count WHERE d=:d;
 
 insert into nginxlog_referer_host_count
