@@ -2,7 +2,8 @@
 
 drop table IF EXISTS member_base_tmp;
 create table member_base_tmp as 
-select a.id as member_id,a.uname,reg_time
+select a.id as member_id,a.real_name,a.uname,a.username,a.mobile,a.idcard
+,reg_time
 ,is_valid_idcard,is_admin
 ,case when reg_way like 'Android%' then 'Android' else reg_way end as reg_way
 ,case when referrer_id is not null then 1 else 0 end as is_recommended
