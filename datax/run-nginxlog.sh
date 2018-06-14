@@ -1,4 +1,6 @@
-# sh run-nginxlog.sh 2018-04-25
+# sh run-nginxlog.sh 2018-06-10
+# rdate=`date -d last-day +%Y-%m-%d`
+
 
 if [ $# -eq 0 ]
 then
@@ -17,7 +19,7 @@ echo ==== datax
 python /var/www/datax/bin/datax.py day/odps2postgresql-nginxlog-$rdate.json
 
 echo ==== psql
-psql  -v d="'$rdate'" -f proc-nginxlog.sql "dbname=xueshandai user=xsd password=Xsd123$"
+psql -v d="'$rdate'" -f proc-nginxlog.sql "dbname=xueshandai user=xueshandai password=Xueshandai123$"
 
 
 

@@ -1,5 +1,6 @@
 
 # python3 etl_schedule.py > etl.log 2>&1 &
+# pip3 install schedule
 
 import schedule
 import time
@@ -24,3 +25,5 @@ schedule.every().day.at("4:30").do(job_etl_run)
 while True:
     schedule.run_pending()
     time.sleep(3600)
+
+    
