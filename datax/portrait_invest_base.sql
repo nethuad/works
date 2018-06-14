@@ -3,6 +3,7 @@ drop table if exists p_member_invest_base;
 create table p_member_invest_base as 
 select investor_id,cycle_type,cycle,capital,status,invest_date
 ,row_number() over(partition by investor_id order by invest_date asc) as invest_order
+,row_number() over(partition by investor_id order by invest_date desc) as invest_order_desc
 from (
 select investor_id
 ,b.cycle_type,b.cycle  --投资类型
@@ -18,20 +19,23 @@ left outer join borrow b on a.borrow_id = b.id
 drop table if exists p_member_invest;
 create table p_member_invest as 
 select a.*
-,b.invest_date as first_invest_date  -- 首次投标日期
-,b.capital as first_invest_capital
-,b.cycle_type as first_cycle_type
-,b.cycle as first_cycle
-,c.invest_date as second_invest_date
-,c.capital as second_invest_capital
-,c.cycle_type as second_cycle_type
-,c.cycle as second_cycle
-,c3.invest_date as third_invest_date
-,c3.capital as third_invest_capital
-,c3.cycle_type as third_cycle_type
-,c3.cycle as third_cycle
+,b1.invest_date as first_invest_date  -- 首次投标日期
+,b1.capital as first_invest_capital
+,b1.cycle_type as first_cycle_type
+,b1.cycle as first_cycle
+,b2.invest_date as second_invest_date
+,b2.capital as second_invest_capital
+,b2.cycle_type as second_cycle_type
+,b2.cycle as second_cycle
+,b3.invest_date as third_invest_date
+,b3.capital as third_invest_capital
+,b3.cycle_type as third_cycle_type
+,b3.cycle as third_cycle
+,c1.invest_date as last_invest_date  -- 最后一次投标日期
+,c1.capital as last_invest_capital
+,c1.cycle_type as last_cycle_type
+,c1.cycle as last_cycle
 from ( select investor_id 
-,max(invest_date) as last_invest_date -- 最后一次投标日期
 ,count(1) as invest_times --投资笔数
 ,sum(capital) as invest_capital -- 投资金额
 ,sum(case when status in (0,1) then capital else 0 end)  as oninvest_capital -- 在投金额
@@ -46,9 +50,10 @@ from ( select investor_id
 from p_member_invest_base
 group by investor_id
 ) a 
-left outer join (select * from p_member_invest_base where invest_order=1) b on a.investor_id = b.investor_id
-left outer join (select * from p_member_invest_base where invest_order=2) c on a.investor_id = c.investor_id
-left outer join (select * from p_member_invest_base where invest_order=3) c3 on a.investor_id = c3.investor_id -- 第三次投资
+left outer join (select * from p_member_invest_base where invest_order=1) b1 on a.investor_id = b1.investor_id
+left outer join (select * from p_member_invest_base where invest_order=2) b2 on a.investor_id = b2.investor_id
+left outer join (select * from p_member_invest_base where invest_order=3) b3 on a.investor_id = b3.investor_id -- 第三次投资
+left outer join (select * from p_member_invest_base where invest_order_desc=1) c1 on a.investor_id = c1.investor_id -- 最后一次投资
 ;
 
 

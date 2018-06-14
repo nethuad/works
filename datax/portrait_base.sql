@@ -1,9 +1,11 @@
 -- 用户宽表
 drop table if exists p_member_wide;
 create table p_member_wide as
-select a.member_id,reg_time,is_valid_idcard,is_admin,reg_way,is_recommended,a.recommender_id,is_inner
+select a.member_id,real_name,uname,username,mobile,idcard,reg_time,is_valid_idcard,is_admin,reg_way,is_recommended,a.recommender_id,is_inner
 ,b.birthday,b.gender
-,i.last_invest_date,invest_times,invest_capital
+,ma.cash_available,ma.cash_freeze
+,last_invest_date,last_invest_capital,last_cycle_type,last_cycle
+,invest_times,invest_capital
 ,invest_capital_days
 ,invest_capital_days_360
 ,invest_capital_days_180
@@ -13,25 +15,31 @@ select a.member_id,reg_time,is_valid_idcard,is_admin,reg_way,is_recommended,a.re
 ,first_invest_date,first_invest_capital,first_cycle_type,first_cycle
 ,second_invest_date,second_invest_capital,second_cycle_type,second_cycle
 ,third_invest_date,third_invest_capital,third_cycle_type,third_cycle
-,mr.last_receipt_time
 ,mr.unreceipt_capital
+,mrl.need_receipt_time as last_receipt_time
+,mrl.capital as last_receipt_capital
+,mrl.cycle_type as last_receipt_cycle_type
+,mrl.cycle as last_receipt_cycle
 ,case when ri.recommender_id is not null then 1 else 0 end as is_recommender
 ,case when ri.recommender_id is not null then recommended_num else 0 end as recommended_num
 ,case when ri.recommender_id is not null then recommended_valid_num else 0 end as recommended_valid_num
 ,case when ri.recommender_id is not null then recommended_invest_capital else 0 end as recommended_invest_capital
 from member_wide a 
 left outer join member_info b on a.member_id= b.member_id
+left outer join p_member_account_base ma on a.member_id = ma.member_id
 left outer join p_member_invest i on a.member_id = i.investor_id
 left outer join p_member_recommend_invest ri on a.member_id = ri.recommender_id 
 left outer join p_member_receipt_base mr on a.member_id = mr.investor_id
+left outer join (select * from p_member_receipt_row_base where receipt_order_desc=1) mrl on a.member_id = mrl.investor_id
 ; 
-
 
 
 -- 投资用户-画像数据
 drop table if exists p_member_draw;
 create table p_member_draw as
 select member_id
+,real_name,uname,username,mobile,idcard
+,cash_available,cash_freeze
 ,reg_time,EXTRACT(EPOCH FROM (now()-reg_time::TIMESTAMP)) /3600/24 as reg_days
 ,is_valid_idcard
 ,is_admin,reg_way
@@ -39,7 +47,8 @@ select member_id
 ,is_inner
 ,birthday,EXTRACT(EPOCH FROM (now()-birthday::TIMESTAMP)) /3600/24/365 as age
 ,gender,case when gender ='男' then 1 when gender='女' then 0 else -1 end as sex
-,last_invest_date,EXTRACT(EPOCH FROM (now()-last_invest_date::TIMESTAMP)) /3600/24 as last_invest_days
+,last_invest_date,last_invest_capital,last_cycle_type,last_cycle
+,EXTRACT(EPOCH FROM (now()-last_invest_date::TIMESTAMP)) /3600/24 as last_invest_days
 ,invest_times
 ,invest_capital
 ,invest_capital_days
@@ -60,7 +69,7 @@ select member_id
 ,recommended_invest_capital
 ,EXTRACT(EPOCH FROM (first_invest_date::TIMESTAMP-reg_time::TIMESTAMP)) /3600/24 as first_span_days
 ,EXTRACT(EPOCH FROM (second_invest_date::TIMESTAMP-first_invest_date::TIMESTAMP)) /3600/24 as second_span_days
-,last_receipt_time
+,last_receipt_time,last_receipt_capital,last_receipt_cycle_type,last_receipt_cycle
 ,EXTRACT(EPOCH FROM (last_receipt_time::TIMESTAMP-now())) /3600/24 as to_receipt_days
 ,coalesce(unreceipt_capital,0) as unreceipt_capital
 from p_member_wide
@@ -74,6 +83,8 @@ and invest_times>0
 drop table if exists p_member_mode;
 create table p_member_mode as
 select member_id
+,real_name,uname,username,mobile,idcard
+,cash_available,cash_freeze
 ,reg_time,reg_days
 ,is_valid_idcard
 ,is_admin,reg_way
@@ -81,7 +92,8 @@ select member_id
 ,is_inner
 ,birthday,age
 ,gender,sex
-,last_invest_date,last_invest_days
+,last_invest_date,last_invest_capital,last_cycle_type,last_cycle
+,last_invest_days
 ,invest_times
 ,invest_capital
 ,invest_capital_days
@@ -100,7 +112,7 @@ select member_id
 ,recommended_num
 ,recommended_valid_num
 ,recommended_invest_capital
-,last_receipt_time
+,last_receipt_time,last_receipt_capital,last_receipt_cycle_type,last_receipt_cycle
 ,to_receipt_days
 ,unreceipt_capital
 from p_member_draw
