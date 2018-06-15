@@ -1,5 +1,15 @@
 drop table #618
 
+
+select
+a.investor_id as member_id 
+,need_receipt_time 最后回款时间
+,capital 最后回款金额
+,case when cycle_type=1 then '日标-' else '月标-' end + convert(varchar(5),cycle) 最后回款标类型
+,b.reg_time 注册时间
+,case when c.member_id is not null then grade_name else '普通用户' end as 客户类型
+
+
 select
 a.investor_id as member_id 
 ,mobile

@@ -62,7 +62,28 @@ d varchar(100)
 );
 
 
-CREATE TABLE nginxlog_base_ext (
+CREATE TABLE nginxlog_spider (
+host varchar(100),
+path text,
+query text,
+url text,
+http_referer text,
+http_user_agent varchar(1000),
+request_method varchar(100),
+size integer,
+status integer,
+timestamp varchar(100),
+cid varchar(100),
+uid bigint,
+xsd_tag text,
+ip varchar(100),
+referer_ps text,
+url_ps text,
+d varchar(100)
+);
+
+
+CREATE TABLE nginxlog_nospider (
 host varchar(100),
 path text,
 query text,
