@@ -18,6 +18,9 @@ y=x['job']['content'][0]['reader']['parameter']['partition']
 
 x['job']['content'][0]['reader']['parameter']['partition']=['d='+sdate]
 
+x['job']['content'][0]['writer']['parameter']['username']='xueshandai'
+x['job']['content'][0]['writer']['parameter']['password']='Xueshandai123$'
+
 x['job']['content'][0]['writer']['parameter']['preSql'][0]+=" where d='{}'".format(sdate)
 
 fout = 'day/odps2postgresql-{}-{}.json'.format(tname,sdate)

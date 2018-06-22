@@ -209,12 +209,22 @@ else '' end as 标状态
 convert_channel:1-积分兑换，2-兑换码兑换，3-活动赠送，4-后台发送，5-积分抽奖 ，6-新手渠道，7-新手首投特权渠道，8-定时任务-加息券
 9-注册赠送奖励，10-后台指定发送
 
+card_coupons_batch 里面的category
+  DISCOUNT_CARD(1,"抵现券"),RED_PACKETS(2,"红包"),INTEREST_RATE(3,"加息劵");
+
 
 # member_query
 短信发送批次查询sql
 
 # notice
-短信通知
+# notice_his
+通知（短信，站内信，....）
+notice.RECEIVE_TYPE  static enum RECEIVE_TYPE {NONE, MOBILE, EMAIL, MESSAGE}
+notice.STATUS   static enum STATUS { INIT, SENDING, SUCCESS, FAILED, INVALID, ACHIEVE }
+
+# weixin_binding
+绑定微信的账号
+
 
 
 

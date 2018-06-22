@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_cash_flow(
-CREATE TABLE dbo_cash_flow_dadd(
+CREATE TABLE cash_flow(
+-- CREATE TABLE dbo_cash_flow(
+-- CREATE TABLE dbo_cash_flow_dadd(
 id bigint,
 account_id bigint,
 event_type_id bigint,
@@ -23,4 +23,5 @@ is_voucher boolean,
 way int,
 pt varchar(20)
 )
+;
 

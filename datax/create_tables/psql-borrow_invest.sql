@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_borrow_invest(
-CREATE TABLE dbo_borrow_invest_dadd(
+CREATE TABLE borrow_invest(
+-- CREATE TABLE dbo_borrow_invest(
+-- CREATE TABLE dbo_borrow_invest_dadd(
 id bigint,
 borrow_id bigint,
 investor_id bigint,
@@ -25,4 +25,5 @@ invest_way varchar(50) ,
 contract bigint,
 pt varchar(20)
 )
+;
 

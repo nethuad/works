@@ -1,0 +1,77 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+"id",
+"member_id",
+"is_freeze",
+"freeze2",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"type",
+"available",
+"data_digest",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "account"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "account"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+"id",
+"member_id",
+"is_freeze",
+"freeze2",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"type",
+"available",
+"data_digest",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

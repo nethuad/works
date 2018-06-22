@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_receipt_detail(
-CREATE TABLE dbo_receipt_detail_dadd(
+CREATE TABLE receipt_detail(
+-- CREATE TABLE dbo_receipt_detail(
+-- CREATE TABLE dbo_receipt_detail_dadd(
 id bigint,
 invest_id bigint,
 borrow_id bigint,
@@ -33,4 +33,5 @@ is_overdue_repay boolean,
 capital_type varchar(16),
 pt varchar(20)
 )
+;
 

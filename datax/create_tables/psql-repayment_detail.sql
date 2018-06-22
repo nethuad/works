@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_repayment_detail(
-CREATE TABLE dbo_repayment_detail_dadd(
+CREATE TABLE repayment_detail(
+-- CREATE TABLE dbo_repayment_detail(
+-- CREATE TABLE dbo_repayment_detail_dadd(
 id bigint,
 invest_id bigint,
 borrow_id bigint,
@@ -37,4 +37,5 @@ displace_status int,
 displace_money numeric(19, 2),
 pt varchar(20)
 )
+;
 

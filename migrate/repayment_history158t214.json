@@ -1,0 +1,87 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+"id",
+"version",
+"borrow_id",
+"capital",
+"company_overdue_fee",
+"displace_id",
+"interest",
+"member_id",
+"member_overdue_fee",
+"repay_id",
+"repay_time",
+"total",
+"created_by",
+"date_created",
+"last_updated",
+"updated_by",
+"type",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "repayment_history"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "repayment_history"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+"id",
+"version",
+"borrow_id",
+"capital",
+"company_overdue_fee",
+"displace_id",
+"interest",
+"member_id",
+"member_overdue_fee",
+"repay_id",
+"repay_time",
+"total",
+"created_by",
+"date_created",
+"last_updated",
+"updated_by",
+"type",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

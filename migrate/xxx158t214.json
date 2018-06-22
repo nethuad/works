@@ -1,0 +1,57 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+"id",
+"xxx",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "xxx"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "xxx"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+"id",
+"xxx",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

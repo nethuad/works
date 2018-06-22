@@ -1,0 +1,121 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+"id",
+"member_id",
+"account_id",
+"cost_id",
+"charge_type",
+"cash",
+"prize_cash",
+"fee",
+"charge_status",
+"pay_tran_no",
+"bank_name",
+"bank_account",
+"bank_city_id",
+"charge_way",
+"ip",
+"is_manual",
+"reason",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"gopay_tran_date_time",
+"handle_time",
+"handler_id",
+"bank_city",
+"order_no",
+"check_original_result",
+"check_status",
+"check_date",
+"check_result",
+"check_by_admin_remark",
+"check_by_admin_fix_status",
+"explain",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "account_recharge"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "account_recharge"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+"id",
+"member_id",
+"account_id",
+"cost_id",
+"charge_type",
+"cash",
+"prize_cash",
+"fee",
+"charge_status",
+"pay_tran_no",
+"bank_name",
+"bank_account",
+"bank_city_id",
+"charge_way",
+"ip",
+"is_manual",
+"reason",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"gopay_tran_date_time",
+"handle_time",
+"handler_id",
+"bank_city",
+"order_no",
+"check_original_result",
+"check_status",
+"check_date",
+"check_result",
+"check_by_admin_remark",
+"check_by_admin_fix_status",
+"explain",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

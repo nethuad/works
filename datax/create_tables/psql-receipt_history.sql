@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_receipt_history(
-CREATE TABLE dbo_receipt_history_dadd(
+CREATE TABLE receipt_history(
+-- CREATE TABLE dbo_receipt_history(
+-- CREATE TABLE dbo_receipt_history_dadd(
 id bigint,
 version bigint,
 borrow_id bigint,

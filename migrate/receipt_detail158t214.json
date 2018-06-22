@@ -1,0 +1,113 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+"id",
+"invest_id",
+"borrow_id",
+"investor_id",
+"loaner_id",
+"capital",
+"interest",
+"receipt_time",
+"need_receipt_time",
+"interest_cost_fee",
+"need_overdue",
+"issue",
+"is_be_overdue",
+"status",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"overdue_time",
+"receipt_type",
+"should_receipt_balance",
+"should_receipt_fee",
+"fact_receipt_balance",
+"fact_receipt_fee",
+"displace_type",
+"receipt_process",
+"is_proxy_repay",
+"is_overdue_repay",
+"capital_type",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "receipt_detail"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "receipt_detail"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+"id",
+"invest_id",
+"borrow_id",
+"investor_id",
+"loaner_id",
+"capital",
+"interest",
+"receipt_time",
+"need_receipt_time",
+"interest_cost_fee",
+"need_overdue",
+"issue",
+"is_be_overdue",
+"status",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"overdue_time",
+"receipt_type",
+"should_receipt_balance",
+"should_receipt_fee",
+"fact_receipt_balance",
+"fact_receipt_fee",
+"displace_type",
+"receipt_process",
+"is_proxy_repay",
+"is_overdue_repay",
+"capital_type",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_account(
-CREATE TABLE dbo_account_dadd(
+CREATE TABLE account(
+-- CREATE TABLE dbo_account(
+-- CREATE TABLE dbo_account_dadd(
 id bigint,
 member_id bigint,
 is_freeze boolean,
@@ -15,4 +15,5 @@ available numeric(19, 2),
 data_digest varchar(1000),
 pt varchar(20)
 )
+;
 

@@ -1,0 +1,121 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+"id",
+"invest_id",
+"borrow_id",
+"capital",
+"interest",
+"repayment_time",
+"need_repayment_time",
+"need_overdue_time",
+"is_be_overdue",
+"is_proxy_repay",
+"status",
+"member_id",
+"issue",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"cost_id",
+"repay_type",
+"is_overdue_repay",
+"is_be_overdueing",
+"is_displace_repay",
+"is_displaced",
+"overdue_time",
+"should_repay_balance",
+"should_repay_fee",
+"fact_repay_balance",
+"fact_repay_fee",
+"displace_type",
+"repay_process",
+"newly_overdue_time",
+"displace_status",
+"displace_money",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "repayment_detail"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "repayment_detail"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+"id",
+"invest_id",
+"borrow_id",
+"capital",
+"interest",
+"repayment_time",
+"need_repayment_time",
+"need_overdue_time",
+"is_be_overdue",
+"is_proxy_repay",
+"status",
+"member_id",
+"issue",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"cost_id",
+"repay_type",
+"is_overdue_repay",
+"is_be_overdueing",
+"is_displace_repay",
+"is_displaced",
+"overdue_time",
+"should_repay_balance",
+"should_repay_fee",
+"fact_repay_balance",
+"fact_repay_fee",
+"displace_type",
+"repay_process",
+"newly_overdue_time",
+"displace_status",
+"displace_money",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,189 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+                            "id",
+"loaner_id",
+"post_id",
+"post_time",
+"name",
+"logo",
+"category",
+"status",
+"full_time",
+"amount",
+"interest_total",
+"rate",
+"is_display",
+"invest_process",
+"repay_process",
+"is_be_overdue",
+"cycle_type",
+"cycle",
+"repay_type",
+"fund_cycle_type",
+"fund_cycle",
+"deadline",
+"is_reward",
+"reward_rate",
+"loaner_fee_total",
+"interest_fee_total",
+"loaner_cost_id",
+"ip",
+"auditing_member_id",
+"auditing_remark",
+"description",
+"issues",
+"portal_weight",
+"issued",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"last_payment",
+"is_vip",
+"fund_deadline",
+"last_check_fail_date",
+"last_check_success_date",
+"check_result_status",
+"next_repay_time",
+"min_invest_day",
+"interest_type",
+"is_settlement",
+"trade_out",
+"surplus",
+"is_pause",
+"need_settlement_date",
+"loaner_total",
+"trade_in",
+"invest_max",
+"invest_min",
+"settlement_date",
+"keyword",
+"is_be_overdueing",
+"run_off_date",
+"receipt_id",
+"assure_type",
+"assure_description",
+"assure_company",
+"category_type",
+"contract",
+"description_for_seo",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "borrow"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "borrow"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+                            "id",
+"loaner_id",
+"post_id",
+"post_time",
+"name",
+"logo",
+"category",
+"status",
+"full_time",
+"amount",
+"interest_total",
+"rate",
+"is_display",
+"invest_process",
+"repay_process",
+"is_be_overdue",
+"cycle_type",
+"cycle",
+"repay_type",
+"fund_cycle_type",
+"fund_cycle",
+"deadline",
+"is_reward",
+"reward_rate",
+"loaner_fee_total",
+"interest_fee_total",
+"loaner_cost_id",
+"ip",
+"auditing_member_id",
+"auditing_remark",
+"description",
+"issues",
+"portal_weight",
+"issued",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"last_payment",
+"is_vip",
+"fund_deadline",
+"last_check_fail_date",
+"last_check_success_date",
+"check_result_status",
+"next_repay_time",
+"min_invest_day",
+"interest_type",
+"is_settlement",
+"trade_out",
+"surplus",
+"is_pause",
+"need_settlement_date",
+"loaner_total",
+"trade_in",
+"invest_max",
+"invest_min",
+"settlement_date",
+"keyword",
+"is_be_overdueing",
+"run_off_date",
+"receipt_id",
+"assure_type",
+"assure_description",
+"assure_company",
+"category_type",
+"contract",
+"description_for_seo",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

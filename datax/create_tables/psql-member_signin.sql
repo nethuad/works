@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_member_signin(
-CREATE TABLE dbo_member_signin_dadd(
+CREATE TABLE member_signin(
+-- CREATE TABLE dbo_member_signin(
+-- CREATE TABLE dbo_member_signin_dadd(
 id bigint,
 member_id bigint,
 ip varchar(50),
@@ -11,4 +11,5 @@ updated_by bigint,
 version bigint,
 pt varchar(20)
 )
+;
     

@@ -1,0 +1,93 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+                            "id",
+"account_id",
+"event_type_id",
+"available_after",
+"freeze_after",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"data_digest",
+"available_before",
+"freeze_before",
+"event_source",
+"description",
+"expand1",
+"expand2",
+"is_voucher",
+"way",
+"change",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "cash_flow"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "cash_flow"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+                            "id",
+"account_id",
+"event_type_id",
+"available_after",
+"freeze_after",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"data_digest",
+"available_before",
+"freeze_before",
+"event_source",
+"description",
+"expand1",
+"expand2",
+"is_voucher",
+"way",
+"change",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

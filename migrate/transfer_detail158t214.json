@@ -1,0 +1,85 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+"id",
+"version",
+"capital",
+"capital_type",
+"created_by",
+"date_created",
+"description",
+"handle_time",
+"handler_id",
+"ip",
+"last_updated",
+"payer_id",
+"receiver_id",
+"transfer_time",
+"updated_by",
+"explain",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "transfer_detail"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "transfer_detail"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+"id",
+"version",
+"capital",
+"capital_type",
+"created_by",
+"date_created",
+"description",
+"handle_time",
+"handler_id",
+"ip",
+"last_updated",
+"payer_id",
+"receiver_id",
+"transfer_time",
+"updated_by",
+"explain",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

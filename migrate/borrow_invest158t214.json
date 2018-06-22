@@ -1,0 +1,97 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+                            "id",
+"borrow_id",
+"investor_id",
+"loaner_id",
+"capital",
+"activate_time",
+"interest",
+"back_prize",
+"status",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"is_vip",
+"loan_fee",
+"loan_fee_rate",
+"is_be_overdue",
+"is_be_overdueing",
+"capital_type",
+"invest_way",
+"contract",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "borrow_invest"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "borrow_invest"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+                            "id",
+"borrow_id",
+"investor_id",
+"loaner_id",
+"capital",
+"activate_time",
+"interest",
+"back_prize",
+"status",
+"date_created",
+"last_updated",
+"created_by",
+"updated_by",
+"version",
+"is_vip",
+"loan_fee",
+"loan_fee_rate",
+"is_be_overdue",
+"is_be_overdueing",
+"capital_type",
+"invest_way",
+"contract",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

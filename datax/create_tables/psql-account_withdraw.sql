@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_account_withdraw(
-CREATE TABLE dbo_account_withdraw_dadd(
+CREATE TABLE account_withdraw(
+-- CREATE TABLE dbo_account_withdraw(
+-- CREATE TABLE dbo_account_withdraw_dadd(
 id bigint,
 member_id bigint,
 account_id bigint,
@@ -32,4 +32,5 @@ platform_type int,
 withdraw_way int,
 pt varchar(20)
 )
+;
 

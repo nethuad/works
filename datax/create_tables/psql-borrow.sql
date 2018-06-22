@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_borrow( --全量同步
-CREATE TABLE dbo_borrow_dadd( --增量同步
+CREATE TABLE borrow(
+-- CREATE TABLE dbo_borrow( --全量同步
+-- CREATE TABLE dbo_borrow_dadd( --增量同步
 id bigint,
 loaner_id bigint,
 post_id bigint,
@@ -68,7 +68,7 @@ assure_description varchar(256),
 assure_company varchar(128),
 category_type varchar(128),
 contract varchar(32),
-description_for_seo varchar(255),
+description_for_seo varchar(500),
 pt varchar(20)
 )
 

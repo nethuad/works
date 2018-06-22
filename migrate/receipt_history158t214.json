@@ -1,0 +1,77 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+"id",
+"version",
+"borrow_id",
+"capital",
+"interest",
+"investor_id",
+"is_proxy_repay",
+"member_overdue_fee",
+"receipt_id",
+"receipt_time",
+"repay_history_id",
+"total",
+"pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "receipt_history"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "receipt_history"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+"id",
+"version",
+"borrow_id",
+"capital",
+"interest",
+"investor_id",
+"is_proxy_repay",
+"member_overdue_fee",
+"receipt_id",
+"receipt_time",
+"repay_history_id",
+"total",
+"pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

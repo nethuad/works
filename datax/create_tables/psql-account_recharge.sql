@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_account_recharge(
-CREATE TABLE dbo_account_recharge_dadd(
+CREATE TABLE account_recharge(
+-- CREATE TABLE dbo_account_recharge(
+-- CREATE TABLE dbo_account_recharge_dadd(
 id bigint,
 member_id bigint,
 account_id bigint,
@@ -37,4 +37,5 @@ check_by_admin_remark varchar(255),
 check_by_admin_fix_status boolean,
 pt varchar(20)
 )
+;
 

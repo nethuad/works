@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_credit_card_payment(
-CREATE TABLE dbo_credit_card_payment_dadd(
+CREATE TABLE credit_card_payment(
+-- CREATE TABLE dbo_credit_card_payment(
+-- CREATE TABLE dbo_credit_card_payment_dadd(
 id bigint,
 member_id bigint,
 account_id bigint,
@@ -30,4 +30,5 @@ pay_way int,
 current_withdraw numeric(19, 2),
 pt varchar(20)
 )
+;
 

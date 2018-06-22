@@ -1,0 +1,145 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": "3"
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "postgresqlreader",
+                    "parameter": {
+                        "username": "xsd",
+                        "password": "Xsd123$",
+                        "column": [
+                            "id",
+                            "username",
+                            "password",
+                            "out_password",
+                            "status",
+                            "reg_time",
+                            "last_login_time",
+                            "reg_ip",
+                            "real_name",
+                            "email",
+                            "is_valid_email",
+                            "mobile",
+                            "is_valid_mobile",
+                            "idcard",
+                            "is_valid_idcard",
+                            "recommend_id",
+                            "credit_point",
+                            "credit_reason",
+                            "credit_limit",
+                            "freeze_credit_limit",
+                            "is_transfer",
+                            "is_vip",
+                            "is_recharge",
+                            "is_withdraw",
+                            "is_admin",
+                            "date_created",
+                            "last_updated",
+                            "created_by",
+                            "updated_by",
+                            "version",
+                            "is_deleted",
+                            "enabled",
+                            "account_expired",
+                            "account_locked",
+                            "password_expired",
+                            "reg_address",
+                            "remark",
+                            "avatar",
+                            "is_old",
+                            "is_company",
+                            "auth_reason",
+                            "vip_end_date",
+                            "reg_referer",
+                            "uname",
+                            "identity_change",
+                            "reg_way",
+                            "pt"
+                        ],
+                        "connection": [
+                            {
+                                "table": [
+                                    "member"
+                                ],
+                                "jdbcUrl": [
+                                    "jdbc:postgresql://192.168.0.158:5432/xueshandai"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "writer": {
+                    "parameter": {
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:postgresql://127.0.0.1:5432/xueshandai",
+                                "table": [
+                                    "member"
+                                ]
+                            }
+                        ],
+                        "password": "Xueshandai123$",
+                        "postSql": [],
+                        "column": [
+                            "id",
+                            "username",
+                            "password",
+                            "out_password",
+                            "status",
+                            "reg_time",
+                            "last_login_time",
+                            "reg_ip",
+                            "real_name",
+                            "email",
+                            "is_valid_email",
+                            "mobile",
+                            "is_valid_mobile",
+                            "idcard",
+                            "is_valid_idcard",
+                            "recommend_id",
+                            "credit_point",
+                            "credit_reason",
+                            "credit_limit",
+                            "freeze_credit_limit",
+                            "is_transfer",
+                            "is_vip",
+                            "is_recharge",
+                            "is_withdraw",
+                            "is_admin",
+                            "date_created",
+                            "last_updated",
+                            "created_by",
+                            "updated_by",
+                            "version",
+                            "is_deleted",
+                            "enabled",
+                            "account_expired",
+                            "account_locked",
+                            "password_expired",
+                            "reg_address",
+                            "remark",
+                            "avatar",
+                            "is_old",
+                            "is_company",
+                            "auth_reason",
+                            "vip_end_date",
+                            "reg_referer",
+                            "uname",
+                            "identity_change",
+                            "reg_way",
+                            "pt"
+                        ],
+                        "username": "xueshandai",
+                        "preSql": []
+                    },
+                    "name": "postgresqlwriter"
+                }
+            }
+        ]
+    }
+}

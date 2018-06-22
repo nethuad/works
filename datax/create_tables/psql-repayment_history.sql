@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_repayment_history(
-CREATE TABLE dbo_repayment_history_dadd(
+CREATE TABLE repayment_history(
+-- CREATE TABLE dbo_repayment_history(
+-- CREATE TABLE dbo_repayment_history_dadd(
 id bigint,
 version bigint,
 borrow_id bigint,
@@ -20,4 +20,4 @@ updated_by bigint,
 type int,
 pt varchar(20)
 )
-
+;

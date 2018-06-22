@@ -1,6 +1,6 @@
-
-CREATE TABLE dbo_transfer_detail(
-CREATE TABLE dbo_transfer_detail_dadd(
+CREATE TABLE transfer_detail(
+-- CREATE TABLE dbo_transfer_detail(
+-- CREATE TABLE dbo_transfer_detail_dadd(
 id bigint,
 version bigint,
 capital numeric(19, 2),
@@ -19,4 +19,5 @@ transfer_time varchar(50),
 updated_by bigint,
 pt varchar(20)
 )
+;
 
