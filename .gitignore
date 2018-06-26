@@ -3,3 +3,6 @@ day/
 /datax/createjson*
 template/
 etl.log
+/crawler/
+.ipynb_checkpoints/
+

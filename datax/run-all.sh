@@ -1,8 +1,8 @@
 sh import-all.sh
 
-sh pre-all.sh
+sh pre/pre-all.sh
 
-sh proc-all.sh
+sh proc/proc-all.sh
 
 # ================================
 

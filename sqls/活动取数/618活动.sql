@@ -57,7 +57,7 @@ left outer join (
       from member_vip a 
       inner join vip_association b on a.id=b.membervip_id
       inner join vip_grade c on b.vip_grade_id = c.id
-) a where rown=1 and is_end=0
+     ) a where rown=1 and is_end=0
 ) c on a.investor_id = c.member_id
 
 

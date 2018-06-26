@@ -35,6 +35,7 @@ from s_cash_flow_voucher_extract a ,lateral(select unnest(voucher) as coupon) b
 drop table if exists s_cash_flow_coupon;
 create table s_cash_flow_coupon as
 select a.id as cash_flow_id,account_id,b.member_id,event_source as invest_id,borrow_id
+,a.profit as total_profit
 ,coupon_id,coupon_type,coupon_profit
 ,a.date_created
 from s_cash_flow_voucher_extract_row a 
@@ -79,11 +80,23 @@ select a.*
 ,c.member_id as coupon_member_id
 ,c.invest_id as coupon_invest_id
 ,c.borrow_id as coupon_borrow_id
-,coupon_type,coupon_profit
+,coupon_type,coupon_profit,total_profit
 from card_coupons_detail a 
 inner join card_coupons_batch b on a.batch_id=b.id
 left outer join s_cash_flow_coupon c on a.id=c.coupon_id
 where a.member_id is not null 
+;
+
+-- 根据红包按比例分配投资金额
+drop table if exists card_coupons_invest_detail;
+create table card_coupons_invest_detail as
+select a.*
+,b.date_created as invest_date
+,case when b.id is not null then b.capital else 0 end as invest_capital
+,case when b.id is not null then case when coupon_profit+0.01>total_profit then b.capital else b.capital/total_profit*coupon_profit end 
+  else 0 end as coupon_invest_capital  -- 根据红包使用金额调整的投资金额
+from s_card_coupons_detail a 
+left outer join borrow_invest b on a.coupon_invest_id = b.id
 ;
 
 -- 校验

@@ -41,6 +41,16 @@ BANNER PC	http://m.xueshandai.com/active/transfer?code=wbanner
 
 
 
+http://192.168.0.62:8090/pages/viewpage.action?pageId=1279198&focusedCommentId=1279468#comment-1279468
+
+-- 查询活动
+select * from activity18interest
+
+-- 查询京东卡 
+select * from red_envelopes where type=3 and award_type=1
+
+
+
 8 0429
 18	0430
 30	0431
@@ -79,6 +89,15 @@ from s_card_coupons_detail a
 left outer join activity_member_618_new b on a.member_id=b.member_id_new
 where batch_prefix in ('0429','0430','0431','0432','0433','0434')
 ;
+
+select date_trunc('day',invest_date::TIMESTAMP) as d
+,round(sum(coupon_invest_capital),0) as coupon_invest_capital
+from card_coupons_invest_detail
+where batch_prefix in ('0429','0430','0431','0432','0433','0434')
+and invest_date is not null
+group by date_trunc('day',invest_date::TIMESTAMP)
+;
+
 
 -- 参与人数 
 select count(1) as c
