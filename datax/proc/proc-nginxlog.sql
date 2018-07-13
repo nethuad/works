@@ -39,6 +39,8 @@ WHERE d=:d
 ;
 
 
+
+
 delete from nginxlog_flow_stat WHERE d=:d and tbl='nginxlog_base_ext';
 
 insert into nginxlog_flow_stat
@@ -119,6 +121,8 @@ from nginxlog_filter
 WHERE d=:d
 group by d
 ;
+
+
 
 -- 生成cid，uid的对应表
 /*

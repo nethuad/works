@@ -1,0 +1,8 @@
+comment.blank: 评论内容不能为空!
+comment.is_spam: 非法评论.
+comment.too_long: 评论内容太多 (最多 {{ limit }} 个字)
+comment.too_short: 评论内容太少 (最少 {{ limit }} 个字)
+post.blank_content: 请填写文章内容!
+post.blank_summary: 请填写文章摘要!
+post.too_many_tags: 标签太多 (最多 {{ limit }} 个标签)
+post.too_short_content: 文章内容太少 最少 ({{ limit }} 个字 )

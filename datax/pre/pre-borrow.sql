@@ -102,4 +102,18 @@ DATEADD(DAY, -[min_invest_day],[fund_deadline]) as starttime 开始投标日期
 
 
  */
+ 
+ /* 
+ 逾期
+ 
+ select sum(capital) as capital,sum(should_repay_balance-fact_repay_balance) as should_repay_balance
+from repayment_detail 
+where status=2
+
+select * from borrow where id in (5020,5032,5034,5050)
+ 
+ */
+ 
+ 
+ 
 

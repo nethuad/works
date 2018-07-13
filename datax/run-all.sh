@@ -1,8 +1,14 @@
-sh import-all.sh
+# 导入数据
+sh import/import-all.sh
 
+# 预处理
 sh pre/pre-all.sh
 
+# 中间过程
 sh proc/proc-all.sh
+
+# 报表脚本
+sh report/report-all.sh
 
 # ================================
 
@@ -11,11 +17,4 @@ sh proc/proc-all.sh
 
 # # portrait (手动执行)
 # sh portrait-all.sh $rdate_pt
-
-# # report
-
-# sh report-all.sh $rdate_pt
-
-
-
 

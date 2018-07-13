@@ -73,7 +73,9 @@ select unnest(ARRAY[
 ;
 
 create table member_inner as 
-select b.id,a.uname
+select b.id as member_id,a.uname
 from member_inner_tmp a 
 left outer join member b on a.uname=b.uname
 ;
+
+alter table 

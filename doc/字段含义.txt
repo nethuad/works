@@ -9,8 +9,6 @@ NONE(1,"初始化"),APPLYBIND(2,"申请绑卡"),BIND(3,"绑卡"),UNBIND(4,"解�
 # account_recharge 充值表
 状态 INIT(""), SUBMITTED("已提交"), DOING("处理中"), SUCCESS("成功"), FAILED("失败")
 
-# AccountWithdraw 提现表
- NONE(""), WAIT_TO_VERIFY("待审核"), PASS_HANDLE("处理中"), NOT_PASS("未通过"), COMPLETE("已提现"), CANCEL("撤销")
 
 # borrow_invest
 status : 0-UN_EFFECTIVE("未生效"), 1-EFFECTIVE("生效"), 2-RUN_OFF("流标"), 3-REPAID("已还款")
@@ -64,8 +62,6 @@ Third_Prize_Detail
 
 # 十人奖励的参考表
 DoubbleSectionAward
-
-
 
 # 六友
 MemberRecommendAward
@@ -155,6 +151,17 @@ notice.STATUS   static enum STATUS { INIT, SENDING, SUCCESS, FAILED, INVALID, AC
 绑定微信的账号
 
 
+# 提现表：account_withdraw
+account_withdraw.withdraw_way  ADMIN(1,"人工"), XIANFENG(2,"先锋"),LAKALA(3,"拉卡拉"),YINSHENGBAO(4,"银生宝"),YINGUANTONG(5,"银管通存管"),YG_BORROW_PAYOUT(6,"存管-成标出账");
+
+account_withdraw.status  NONE(""), WAIT_TO_VERIFY("待审核"), PASS_HANDLE("处理中"), NOT_PASS("未通过"), COMPLETE("已提现"), CANCEL("撤销")
 
 
 
+# 每日一题题库
+select  * from Test_database where status=1
+
+
+# 助力数据
+[weixin_activity]
+[weixin_binding]  # 绑定关系
