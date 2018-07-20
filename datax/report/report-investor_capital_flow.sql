@@ -1,4 +1,4 @@
---借贷流水 sp_investor_capital_flow
+--投资人-现金流水 sp_investor_capital_flow
 drop table IF EXISTS sp_investor_capital_flow;
 create table sp_investor_capital_flow as 
 

@@ -16,6 +16,9 @@ psql -v d="'$rdate_d'" -f proc/proc-nginxlog.sql "$db_connection"
 # borrow_invest_wide
 psql -f proc/proc-borrow_invest_wide.sql "$db_connection"
 
+# 剔除内部自动化标
+psql -f proc/proc-borrow_invest_wide_correct.sql "$db_connection"
+
 # coupon
 psql -f proc/proc-coupon.sql "$db_connection"
 

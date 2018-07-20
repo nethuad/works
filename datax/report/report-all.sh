@@ -24,6 +24,18 @@ psql -f report/report-recharge.sql "$db_connection"
 # 投资者现金流水
 psql -f report/report-investor_capital_flow.sql "$db_connection"
 
+# 借款者-现金流水
+psql -f report/report-loaner_capital_flow.sql "$db_connection"
+
+# 标宽表
+psql -f report/report-borrow_wide.sql "$db_connection"
 
 # 投资者投标明细
 psql -f report/report-borrow_invest_wide.sql "$db_connection"
+
+# 用户宽表
+psql -f report/report-portrait_member_wide.sql "$db_connection"
+
+
+
+

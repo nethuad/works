@@ -23,6 +23,9 @@ sh import/import-vip_grade.sh $rdate_pt
 # # weixin_binding
 sh import/import-weixin_binding.sh $rdate_pt
 
+# # platform_customer (存管平台)
+sh import/import-platform_customer.sh $rdate_pt
+
 # =======================================
 
 # # member
@@ -64,6 +67,8 @@ sh import/import-account_recharge.sh $rdate_pt
 # # account_withdraw
 sh import/import-account_withdraw.sh $rdate_pt
 
+# # account_bank
+sh import/import-account_bank.sh $rdate_pt
 
 # # recommend
 sh import/import-recommend.sh $rdate_pt
@@ -95,4 +100,11 @@ sh import/import-notice.sh $rdate_pt
 
 # # notice_his
 sh import/import-notice_his.sh $rdate_pt
+
+# # weixin_activity
+sh import/import-weixin_activity.sh $rdate_pt
+
+# # register_attach_info
+sh import/import-register_attach_info.sh $rdate_pt
+
 

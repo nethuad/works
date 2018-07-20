@@ -86,14 +86,20 @@ way NONE("未知") FREEZE("冻结") THAW("解冻") TURN_IN("转入") TURN_OUT("�
  member_authentication
 
 
-# 有效账户
+# 
 
 select top 10 * from xueshandai.dbo.account_bank where member_id=980723
 operate_status=1 and authenticate_status=2 and auditing_status=1
 
 
-# 存管是否开通
-platform_customer 需要与 account_bank（operate_status=1 and authenticate_status=2 and auditing_status=1）匹配一下，是否合理
+# 存管是否开通，即实名
+platform_customer
+
+platform_customer.operate_type
+  NONE(1,"初始化"),BIND(2,"绑卡"),UNBIND(3,"解绑"),DELETE(4,"删卡");
+  
+# 银行卡绑定(有效账户)
+account_bank（operate_status=1 and authenticate_status=2 and auditing_status=1）
 
 
 # overdue_detail
@@ -119,7 +125,7 @@ and need_repayment_time<'2018-05-01' and repayment_time is null
 and capital>0
 ;
 
- (5020,5032,5034,5050,11957)
+(5020,5032,5034,5050,11957)
 
 # 逾期90天（含）以上 为不良
 
@@ -165,3 +171,64 @@ select  * from Test_database where status=1
 # 助力数据
 [weixin_activity]
 [weixin_binding]  # 绑定关系
+
+
+
+# member
+冻结： isdelete,enable
+
+
+/* borrow
+
+累计投资总额：
+   历史固定值（不在库里）：22540200，
+   投标记录的+余额连盈的（ select capital, investor_id, subscription_time as time from balance_invest_detail）
+
+status:
+0-READY("待审核"), 1-PASS("投标"), 2-NO_PASS("未通过审核"), 3-RUN_OFF("流标"), 4-FULL("满标"), 5-REPAY("还款中"), 6-COMPLETE("完成")，
+
+有效标判断 : status in (1,4,5,6) 
+满标判断: status in (4,5,6)
+
+
+标类型:
+ 1. 担保标 : category='ordinary' and category_type = 'transfer'
+ 2. 信用标 : category='transfer' and category_type = 'ordinary'  -- 企业标
+ 3. 净值标 : category='worth' and category_type = 'worth'
+ 4. 个人贷 : category='personer_loan' and category_type = 'personer_loan'
+
+CYCLE_TYPE：  NONE("未知"), DAY("天"), MONTH("个月")，
+
+INTEREST_TYPE：INVEST("投标计息", "即刻投标即刻计息"), FULL("满标计息", "标满后开始计息")，
+
+REPAY_TYPE：
+NONE("未知", "未定义"), ONCE("一次性还款", "借款人在借款到期时一次性还清借款的本息"),
+        MONTH("每月等额本息", "借款人每月按相等的金额偿还借款本金和利息，其中每月借款利息按月初剩余借款本金计算并逐月结清。"),
+        MONTH_INTEREST("按月还息", "借款人每月支付当月利息，最后一月支付借款本金和当月利息。"),
+        QUARTER_INTEREST("按季还息", "借款人每季度支付当季度利息，最后一个季度支付借款本金和当季度利息。"),
+        HALF_YEAR_INTEREST("半年还本息","每半年利息由雪山基金会支付")
+        
+tradeout : 已投资金额
+surplus : 剩余投资金额
+tradein : 已回购金额
+
+interestfeetotal： 投资管理费
+loanercost:借款管理费对象
+
+[min_invest_day]
+DATEADD(DAY, -[min_invest_day],[fund_deadline]) as starttime 开始投标日期
+
+
+ */
+ 
+ /* 
+ 逾期
+ 
+ select sum(capital) as capital,sum(should_repay_balance-fact_repay_balance) as should_repay_balance
+from repayment_detail 
+where status=2
+
+select * from borrow where id in (5020,5032,5034,5050)
+ 
+ */
+

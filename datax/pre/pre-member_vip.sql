@@ -1,5 +1,5 @@
-drop table if exists p_member_vip;
-create table p_member_vip as 
+drop table if exists member_vip_map;
+create table member_vip_map as 
 select member_id,vip_rank,grade_name
 from (
 select a.id,a.member_id,a.remark,a.begin_date,a.end_date,a.is_end

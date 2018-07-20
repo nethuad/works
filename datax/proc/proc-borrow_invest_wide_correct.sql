@@ -1,7 +1,8 @@
 --投标宽表 borrow_invest_wide
 
-drop table IF EXISTS borrow_invest_wide;
-create table borrow_invest_wide as 
+-- 剔除内部批量标(borrow_inner)
+drop table IF EXISTS borrow_invest_wide_correct;
+create table borrow_invest_wide_correct as 
 select *
 ,case when is_member_inner =1 then '内投' 
  when is_recommended=1 and invest_order=1 then '推荐首投'
@@ -40,7 +41,9 @@ select a.id,a.borrow_id,a.investor_id,a.capital,interest,loan_fee,invest_way,a.s
 ,ROW_NUMBER() over(partition by a.investor_id order by a.date_created asc) as invest_order    
 from borrow_invest a 
 inner join borrow_wide b on a.borrow_id = b.id
+left outer join borrow_inner c on a.borrow_id=c.borrow_id
 where b.status in (1,4,5,6)
+and c.borrow_id is null
 ) a 
 left outer join member m on a.investor_id=m.id
 left outer join member_inner mi on a.investor_id=mi.member_id

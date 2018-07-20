@@ -108,6 +108,10 @@ and path  !~* '/xueshandai-app/pushtag/index'
 and host in ('www.xueshandai.com','m.xueshandai.com','xueshandai.com')
 ;
 
+
+
+
+
 delete from nginxlog_flow_stat WHERE d=:d and tbl='nginxlog_filter';
 
 insert into nginxlog_flow_stat

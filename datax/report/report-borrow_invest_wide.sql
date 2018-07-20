@@ -15,6 +15,7 @@ select *
 ,borrow_type || '-' || (capital::integer) as borrow_type_capital
 ,invest_date::timestamp as ts
 ,to_char(invest_date::timestamp,'YYYY-MM-DD') as d_ts
-from borrow_invest_wide 
+-- from borrow_invest_wide 
+from borrow_invest_wide_correct
 where invest_date<to_char(now(),'YYYY-MM-DD')
 ;

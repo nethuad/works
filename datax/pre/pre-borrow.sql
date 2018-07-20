@@ -60,59 +60,7 @@ from borrow
 ;
 
 
-/*
 
-累计投资总额：
-   历史固定值（不在库里）：22540200，
-   投标记录的+余额连盈的（ select capital, investor_id, subscription_time as time from balance_invest_detail）
-
-status:
-0-READY("待审核"), 1-PASS("投标"), 2-NO_PASS("未通过审核"), 3-RUN_OFF("流标"), 4-FULL("满标"), 5-REPAY("还款中"), 6-COMPLETE("完成")，
-
-有效标判断 : status in (1,4,5,6) 
-满标判断: status in (4,5,6)
-
-
-标类型:
- 1. 担保标 : category='ordinary' and category_type = 'transfer'
- 2. 信用标 : category='transfer' and category_type = 'ordinary'  -- 企业标
- 3. 净值标 : category='worth' and category_type = 'worth'
- 4. 个人贷 : category='personer_loan' and category_type = 'personer_loan'
-
-CYCLE_TYPE：  NONE("未知"), DAY("天"), MONTH("个月")，
-
-INTEREST_TYPE：INVEST("投标计息", "即刻投标即刻计息"), FULL("满标计息", "标满后开始计息")，
-
-REPAY_TYPE：
-NONE("未知", "未定义"), ONCE("一次性还款", "借款人在借款到期时一次性还清借款的本息"),
-        MONTH("每月等额本息", "借款人每月按相等的金额偿还借款本金和利息，其中每月借款利息按月初剩余借款本金计算并逐月结清。"),
-        MONTH_INTEREST("按月还息", "借款人每月支付当月利息，最后一月支付借款本金和当月利息。"),
-        QUARTER_INTEREST("按季还息", "借款人每季度支付当季度利息，最后一个季度支付借款本金和当季度利息。"),
-        HALF_YEAR_INTEREST("半年还本息","每半年利息由雪山基金会支付")
-        
-tradeout : 已投资金额
-surplus : 剩余投资金额
-tradein : 已回购金额
-
-interestfeetotal： 投资管理费
-loanercost:借款管理费对象
-
-[min_invest_day]
-DATEADD(DAY, -[min_invest_day],[fund_deadline]) as starttime 开始投标日期
-
-
- */
- 
- /* 
- 逾期
- 
- select sum(capital) as capital,sum(should_repay_balance-fact_repay_balance) as should_repay_balance
-from repayment_detail 
-where status=2
-
-select * from borrow where id in (5020,5032,5034,5050)
- 
- */
  
  
  

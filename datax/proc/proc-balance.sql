@@ -19,3 +19,12 @@ group by investor_id
 ;
 
 */
+
+-- 待收余额去除内部标
+drop table if exists balance_investor_day_investortype_correct;
+create table balance_investor_day_investortype_correct as 
+select a.*
+,case when b.member_id is null then 'outer' else 'inner' end as investor_type
+from balance_investor_day_correct a 
+left outer join member_inner b on a.investor_id=b.member_id
+;

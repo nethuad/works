@@ -78,4 +78,4 @@ from member_inner_tmp a
 left outer join member b on a.uname=b.uname
 ;
 
-alter table 
+

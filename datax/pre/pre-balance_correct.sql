@@ -11,16 +11,16 @@ d varchar(50)
 */
 
 /*
-sh batch/balance.sh
+sh batch/balance_correct.sh
 ```
 db_connection="dbname=xueshandai user=xueshandai password=Xueshandai123$"
-begin_date=2013-01-01
-end_date=2018-06-26
+begin_date=2018-07-15
+end_date=2018-07-18
 do_date=$begin_date
 while [ "$do_date" \< "$end_date" ]
 do
     echo $do_date
-    psql -v pt="'$do_date'" -f pre/pre-balance.sql "$db_connection" 
+    psql -v pt="'$do_date'" -f pre/pre-balance_correct.sql "$db_connection" 
     do_date=`date -d "+1 day $do_date " +%Y-%m-%d`
 done
 ```
@@ -46,9 +46,9 @@ from balance_investor_day
 */
 
 
-delete from balance_investor_day where d=:pt;
+delete from balance_investor_day_correct where d=:pt;
 
-INSERT INTO balance_investor_day 
+INSERT INTO balance_investor_day_correct 
 SELECT a.investor_id
 ,sum(a.capital) as capital
 ,sum(a.interest) as interest
@@ -57,7 +57,9 @@ SELECT a.investor_id
 FROM receipt_detail  a 
 inner join borrow b on a.borrow_id = b.id
 inner join borrow_invest c on a.invest_id=c.id
+left outer join borrow_inner bi on a.borrow_id=bi.borrow_id
 where b.status in (4,5,6) 
+and bi.borrow_id is null
 and (b.full_time <:pt or 
      (b.full_time is null and b.interest_type=0 and c.date_created<:pt ) --interest_type=0 投标计息，因此没有满标时间
    )
