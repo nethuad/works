@@ -10,6 +10,32 @@ group by investor_id
 ) a where capital_max>=50000
 ;
 
+-- 历史最高待收3-4万
+drop table tmp_history_3t4w;
+create table tmp_history_3t4w as 
+select investor_id as member_id,capital_max
+from (
+select investor_id,max(capital) as capital_max
+from balance_investor_day_investortype
+where investor_type='outer'
+group by investor_id
+) a where capital_max>=30000 and capital_max<40000
+;
+
+-- 历史最高待收2-3万
+drop table tmp_history_2t3w;
+create table tmp_history_2t3w as 
+select investor_id as member_id,capital_max
+from (
+select investor_id,max(capital) as capital_max
+from balance_investor_day_investortype
+where investor_type='outer'
+group by investor_id
+) a where capital_max>=20000 and capital_max<30000
+;
+
+
+
 -- 4219
 drop table tmp_history_5w_lastip;
 create table tmp_history_5w_lastip as
@@ -32,6 +58,12 @@ where investor_type='outer'
 group by investor_id
 ) a where capital_max>=10000
 ;
+
+
+
+
+
+
 
 -- 4219
 drop table tmp_history_4w_lastip;

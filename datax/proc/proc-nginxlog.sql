@@ -110,8 +110,6 @@ and host in ('www.xueshandai.com','m.xueshandai.com','xueshandai.com')
 
 
 
-
-
 delete from nginxlog_flow_stat WHERE d=:d and tbl='nginxlog_filter';
 
 insert into nginxlog_flow_stat
@@ -245,9 +243,11 @@ left outer join nginxlog_cid_uid b on a.cid=b.cid
 ) a where rown_interval=1
 ;
 
-DELETE FROM nginxlog_uidnew WHERE d>=to_char(now()-INTERVAL '7 days','YYYY-MM-DD');
-insert into nginxlog_uidnew
-select * 
+DELETE FROM nginxlog_uid WHERE d>=to_char(now()-INTERVAL '7 days','YYYY-MM-DD');
+insert into nginxlog_uid
+select host,path,query,url,http_referer,http_user_agent,request_method,size,status
+,timestamp,cid,uid,uid_new,xsd_tag
+,ip,referer_ps,url_ps,d 
 from nginxlog_uidnew_tmp
 ;
 
@@ -261,7 +261,7 @@ select 'nginxlog_uidnew' as tbl
 ,count(distinct cid) as uv_cid
 ,count(distinct uid_new) as uv_uid
 ,d
-from nginxlog_uidnew
+from nginxlog_uid
 WHERE d>=to_char(now()-INTERVAL '7 days','YYYY-MM-DD')
 group by d
 ;
@@ -339,4 +339,54 @@ where d=:d
 and url_details->>'is_recommend_register' = '1'
 ;
 
+
+-- 引用为外部链接
+
+delete from nginxlog_foreign_base WHERE d=:d;
+
+create table nginxlog_foreign_base as 
+select *
+,json_extract_path_text(referer_ps::json,'netloc') as referer_host
+,json_extract_path_text(referer_ps::json,'path') as referer_path
+from nginxlog_uid
+where json_extract_path_text(referer_ps::json,'netloc') is not null 
+and json_extract_path_text(referer_ps::json,'netloc')<>''
+and json_extract_path_text(referer_ps::json,'netloc') !~'xueshandai'
+;
+
+
+
 */
+
+
+-- 引用为外部链接
+
+delete from nginxlog_foreign_base WHERE d=:d;
+
+insert into nginxlog_foreign_base
+select *
+,json_extract_path_text(referer_ps::json,'netloc') as referer_host
+,json_extract_path_text(referer_ps::json,'path') as referer_path
+from nginxlog_uid
+where d=:d
+and json_extract_path_text(referer_ps::json,'netloc') is not null 
+and json_extract_path_text(referer_ps::json,'netloc')<>''
+and json_extract_path_text(referer_ps::json,'netloc') !~'xueshandai'
+;
+
+
+
+
+-- 外部活动链接
+
+delete from nginxlog_active_transfer WHERE d=:d;
+
+insert into nginxlog_active_transfer
+select *
+from nginxlog_uid
+where d=:d
+and host='m.xueshandai.com' and path = '/active/transfer'
+;
+
+
+

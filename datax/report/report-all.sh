@@ -21,6 +21,9 @@ psql -f report/report-withdraw.sql "$db_connection"
 # 投资者充值
 psql -f report/report-recharge.sql "$db_connection"
 
+# 投资者充值提现
+psql -f report/report-withdraw_recharge.sql "$db_connection"
+
 # 投资者现金流水
 psql -f report/report-investor_capital_flow.sql "$db_connection"
 
@@ -36,6 +39,15 @@ psql -f report/report-borrow_invest_wide.sql "$db_connection"
 # 用户宽表
 psql -f report/report-portrait_member_wide.sql "$db_connection"
 
+# 客户流失表
+psql -f report/report-member_lost.sql "$db_connection"
 
+# nginx flow
+psql -f report/report-nginx_flow_day.sql "$db_connection"
 
+# nginx外部流量
+psql -f report/report-nginxlog_foreign.sql "$db_connection"
+
+# 活动
+psql -f report/report-nginxlog_active_transfer.sql "$db_connection"
 
