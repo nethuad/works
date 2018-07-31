@@ -1,5 +1,5 @@
 
-# python3 etl_schedule.py > etl.log 2>&1 &
+# nohup python3 etl_schedule.py > etl.log 2>&1 &
 # pip3 install schedule
 
 import schedule

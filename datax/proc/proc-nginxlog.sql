@@ -128,7 +128,7 @@ group by d
 
 -- 生成cid，uid的对应表
 /*
-
+drop table tmp1;
 create table tmp1 as 
 select timestamp,cid,uid,d
 from nginxlog_filter
@@ -353,6 +353,10 @@ where json_extract_path_text(referer_ps::json,'netloc') is not null
 and json_extract_path_text(referer_ps::json,'netloc')<>''
 and json_extract_path_text(referer_ps::json,'netloc') !~'xueshandai'
 ;
+
+array_agg
+string_agg
+
 
 
 
