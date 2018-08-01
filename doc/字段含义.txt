@@ -231,4 +231,13 @@ where status=2
 select * from borrow where id in (5020,5032,5034,5050)
  
  */
+ 
+ 
+ /* 公司代偿
+ DisplacementDetail
+select top 100 * from repayment_detail where displace_money>0 order by id desc
+
+select * from displacement_detail where repayment_id='52890'
+
+ */
 
