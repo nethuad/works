@@ -1,0 +1,20 @@
+\c xueshandai postgres
+
+CREATE FUNCTION urlparse (url text)
+  RETURNS text
+AS $$
+  import urlparse
+  import json
+  obj = urlparse.urlparse(url)
+  map = {'scheme':obj.scheme, 'netloc':obj.netloc, 'path':obj.path, 'params':obj.params, 'query': obj.query, 'fragment': obj.fragment}
+  return json.dumps(map)
+$$ LANGUAGE plpythonu;
+
+
+-- ip转整型
+CREATE FUNCTION ip2int (ip text)
+  RETURNS bigint
+AS $$
+  ip2 = ip.split('.')
+  return long(ip2[0])*256**3+long(ip2[1])*256**2+long(ip2[2])*256+long(ip2[3])
+$$ LANGUAGE plpythonu;

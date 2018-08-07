@@ -393,4 +393,16 @@ and host='m.xueshandai.com' and path = '/active/transfer'
 ;
 
 
+-- 注册链接
+delete from nginxlog_register_url WHERE d=:d;
+insert into nginxlog_register_url 
+select *
+,substring(query,'(sms=[a-z1-9]+)') as register_tag
+from nginxlog_uid
+where d=:d
+and (host='m.xueshandai.com' and path='/' and query ~ 'sms=[a-z1-9]+')
+;
+
+
+
 

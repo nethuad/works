@@ -1,7 +1,25 @@
 -- 昨日最后一笔还款并且没有投资
 -- select :dstat as dstat,:dstatnext as dstatnext;
 
+/*
 
+db_connection="dbname=xueshandai user=xueshandai password=Xueshandai123$"
+begin_date=2018-01-01
+end_date=2018-08-01
+do_date=$begin_date
+while [ "$do_date" \< "$end_date" ]
+do
+    echo $do_date
+    d_yestoday=$do_date
+    d_today=`date -d "+1 day $do_date " +%Y-%m-%d`
+    psql -v dstat="'$d_yestoday'" -v dstatnext="'$d_today'" -f proc/proc-member_receipt_last.sql "$db_connection"
+    do_date=`date -d "+1 day $do_date " +%Y-%m-%d`
+done
+
+*/
+
+
+-- 待收金额，只计算本金
 DELETE FROM receipt_detail_mirrow WHERE d_stat=:dstat;
 
 insert into receipt_detail_mirrow
@@ -21,7 +39,7 @@ and b.date_created<:dstatnext
 ;
 
 
-
+-- 当天回款是最后一笔，并且没有正在投资的标
 DELETE FROM member_receipt_noinvest WHERE d_stat=:dstat;
 
 insert into member_receipt_noinvest
@@ -49,29 +67,5 @@ where b.investor_id is null
 ;
 
 
--- 计算离最后一笔还款的最近一笔投资
-drop table if exists member_receipt_noinvest_first_invest;
-create table member_receipt_noinvest_first_invest as 
-select * from (
-select a.*
-,b.date_created as date_first_invest
-,row_number() over(partition by a.d_stat,a.investor_id order by b.date_created asc) as rown
-from member_receipt_noinvest a 
-inner join borrow_invest b on a.investor_id=b.investor_id
-inner join borrow c on b.borrow_id=c.id
-where c.status in (1,4,5,6)
-and b.date_created>=to_char(a.d_stat::timestamp+'1 days'::interval,'YYYY-MM-DD')
-) a where rown=1
-;
-
--- 匹配表
-drop table if exists member_receipt_noinvest_first_invest_time;
-create table member_receipt_noinvest_first_invest_time as 
-select a.*
-,b.date_first_invest
-,EXTRACT(EPOCH FROM (b.date_first_invest::timestamp-a.d_stat::timestamp)) /60/60/24-1 as days_span
-from member_receipt_noinvest a 
-left outer join member_receipt_noinvest_first_invest b on a.d_stat=b.d_stat and a.investor_id=b.investor_id
-;
 
 

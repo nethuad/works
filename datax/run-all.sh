@@ -1,3 +1,5 @@
+echo start @ `date '+%Y-%m-%d %H:%M:%S'`
+
 # 导入数据
 sh import/import-all.sh
 
@@ -16,11 +18,6 @@ sh report/report-all.sh
 # 临时报表脚本
 sh tmpreport/tmpreport-all.sh
 
-# ================================
 
-# # statistics
-# sh stat-all.sh $rdate_pt
-
-# # portrait (手动执行)
-# sh portrait-all.sh $rdate_pt
+echo end @ `date '+%Y-%m-%d %H:%M:%S'`
 

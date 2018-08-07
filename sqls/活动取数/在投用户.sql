@@ -22,3 +22,8 @@ where b.status in (4,5,6)
 left outer join member_xmgj_transfer c1 on a.investor_id=c1.member_id
 left outer join member_xmgj_zhaiquan c2 on a.investor_id=c2.payer_id
 where not(c1.member_id is not null and c2.payer_id is null)
+
+
+
+
+

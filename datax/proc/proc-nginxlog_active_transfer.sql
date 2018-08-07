@@ -32,7 +32,9 @@ ARRAY[
 'sms|~|短信',
 'wxshare|~|活动分享',
 'mcps|mtimount|天芒云m端',
-'wcps|wtimount|天芒云web端'
+'wcps|wtimount|天芒云web端',
+'mcps|mmojifen|魔积分m端',
+'wcps|wmojifen|魔积分web端'
 ]) as a 
 ) a 
 ) a 

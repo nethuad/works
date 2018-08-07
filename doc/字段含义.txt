@@ -34,7 +34,7 @@ type : NONE("未生效"), ALL("全额垫付"), PART("部分垫付"),
 
 
 # 抽奖活动
-lottery_chance ,
+lottery_chance,
 lottery_award,
 
 # 优惠劵的定义
@@ -132,8 +132,7 @@ and capital>0
 # receipt_detail.status 
 0-无效，1-待收，2-逾期，4-已还款
 
-
-
+receipt_detail.is_be_overdue=1 表示历史逾期
 
 # 积分兑换加息券
 表：card_coupons_batch
@@ -240,4 +239,17 @@ select top 100 * from repayment_detail where displace_money>0 order by id desc
 select * from displacement_detail where repayment_id='52890'
 
  */
+ 
+ 
+ /* 老平台投资金额 from 蔡华卫 
+ 22540200
+ */
 
+
+/* 需要剔除的自动投的名单
+select a.member_id 
+from member_xmgj_transfer a 
+left outer join member_xmgj_zhaiquan b 
+on a.member_id=b.payer_id
+where b.payer_id is null
+*/

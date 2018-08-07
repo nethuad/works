@@ -30,12 +30,15 @@ psql -f proc/proc-coupon.sql "$db_connection"
 # balance
 psql -f proc/proc-balance.sql "$db_connection"
 
-# member ip
-psql -f proc/proc-member_ip.sql "$db_connection"
+# 最后一次登录ip
+psql -f proc/proc-member_last_signin_ip.sql "$db_connection"
 
 
 # 流失客户分析
 psql -v dstat="'$d_yestoday'" -v dstatnext="'$d_today'" -f proc/proc-member_receipt_last.sql "$db_connection"
+
+# 流失客户的第一笔投资
+psql -f proc/proc-member_receipt_noinvest_first_invest.sql "$db_connection"
 
 
 

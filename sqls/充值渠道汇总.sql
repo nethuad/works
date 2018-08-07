@@ -16,7 +16,7 @@ waycode varchar(100)
 
 insert into #rechargeway 
 values 
-('存管线下还款','xxYinGuanTong')
+('存管线下还款','xxYinGuanTong'),
 ('新浪支付','sina'),
 ('宝付','baofoo'),
 ('融宝','reapal'),

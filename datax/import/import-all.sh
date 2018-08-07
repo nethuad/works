@@ -23,6 +23,12 @@ sh import/import-vip_grade.sh $rdate_pt
 # # weixin_binding
 sh import/import-weixin_binding.sh $rdate_pt
 
+# # member_xmgj_transfer
+# sh import/import-member_xmgj_transfer.sh $rdate_pt
+
+# # member_xmgj_zhaiquan
+sh import/import-member_xmgj_zhaiquan.sh $rdate_pt
+
 # # platform_customer (存管平台)
 sh import/import-platform_customer.sh $rdate_pt
 
