@@ -33,6 +33,8 @@ ARRAY[
 'wxshare|~|活动分享',
 'mcps|mtimount|天芒云m端',
 'wcps|wtimount|天芒云web端',
+'mcps|mp2peyeb|网贷天眼banner_m端',
+'wcps|wp2peyeb|网贷天眼banner_web端',
 'mcps|mmojifen|魔积分m端',
 'wcps|wmojifen|魔积分web端'
 ]) as a 
@@ -93,9 +95,13 @@ from nginxlog_active_transfer
 drop table if exists nginxlog_active_transfer_ext_detail;
 create table nginxlog_active_transfer_ext_detail as 
 select a.*
-,coalesce(b.transfer_name,'未识别') as transfer_name
+,coalesce(b.transfer_name,a.transfer_slug,'未识别') as transfer_name
 from nginxlog_active_transfer_ext a 
 left outer join active_transfer_code b on a.transfer_slug=b.transfer_slug
 ;
+
+
+
+
 
 

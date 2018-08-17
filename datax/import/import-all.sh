@@ -37,6 +37,10 @@ sh import/import-platform_customer.sh $rdate_pt
 # # member
 sh import/import-member.sh $rdate_pt
 
+# # member_id_card_info
+sh import/import-member_id_card_info.sh $rdate_pt
+
+
 # # borrow
 sh import/import-borrow.sh $rdate_pt
 

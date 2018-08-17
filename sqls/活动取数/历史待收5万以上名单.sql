@@ -1,3 +1,159 @@
+-- 历史待收1万以上 
+drop table tmp_history_1w;
+create table tmp_history_1w as 
+select investor_id as member_id,capital_max
+from (
+select investor_id,max(capital) as capital_max
+from balance_investor_day_investortype
+where investor_type='outer'
+group by investor_id
+) a where capital_max>=10000
+;
+
+
+drop table tmp_history_1w_ip;
+create table tmp_history_1w_ip as 
+select a.*,b.ip
+from tmp_history_1w a 
+inner join member_last_signin_ip b on a.member_id=b.member_id
+;
+
+drop table tmp_history_1w_ip_city;
+create table tmp_history_1w_ip_city as 
+select a.*,b.country,b.region,b.city
+from tmp_history_1w_ip a 
+left outer join ip_map_city_cache b on a.ip=b.ip
+;
+
+
+select count(1) as c from tmp_history_1w_ip_city where region='广东' and capital_max>=30000
+
+select city,count(1) as c from tmp_history_1w_ip_city where region='广东' and capital_max>=30000 group by city order by c desc 
+
+
+select capital_type,city
+,count(1) as c 
+from (
+select *
+,case when capital_max>=50000 then '5万以上' 
+ when capital_max>=30000 then '3-5万'
+ when capital_max>=10000 then '1-3万'
+ else '其他' end as capital_type
+from tmp_history_1w_ip_city 
+where region='广东' and capital_max>=30000 
+) a 
+group by capital_type,city
+order by capital_type,c desc 
+;
+
+create table guangdong_history_3w_ip_city as 
+select member_id,region,city
+,case when capital_max>=50000 then '5万以上' 
+ when capital_max>=30000 then '3-5万'
+ when capital_max>=10000 then '1-3万'
+ else '其他' end as capital_type
+from tmp_history_1w_ip_city 
+where region='广东' and capital_max>=30000 
+;
+
+
+---- 以下为根据ip获取城市
+
+drop table ip_to_map_province;
+create table ip_to_map_province as 
+select distinct ip
+from tmp_history_1w_ip
+;
+
+python3 get_ip_province.py
+
+-- 备份
+create table ip_map_province_cache as 
+select * 
+from ip_do_map_province
+;
+
+
+
+
+select province,count(1) as c from ip_do_map_province group by province;
+840
+
+
+drop table ip_list_todo;
+create table ip_list_todo as 
+select a.*
+from ip_to_map_province a 
+left outer join ip_map_city_cache b on a.ip=b.ip
+where b.ip is null
+;
+
+drop table ip_list_todo;
+create table ip_list_todo as 
+select ip
+from ip_do_map_province
+where province='广东省'
+;
+
+python3 get_taobao_ip.py
+
+
+drop table tmp1;
+create table tmp1 as 
+select ip
+,json_extract_path_text(info::json,'data','country') as country
+,json_extract_path_text(info::json,'data','region') as region
+,json_extract_path_text(info::json,'data','city') as city
+from ip_list_done;
+
+
+-- create table ip_map_city_cache as 
+insert into ip_map_city_cache
+select *
+from tmp1
+where city is not null
+;
+
+select count(1) as c ,count(distinct ip) as c2 from ip_map_city_cache;
+
+drop table ip_list_todo;
+create table ip_list_todo as 
+select ip
+from tmp1
+where city is null
+;
+
+
+-------------------------------
+-- 两次活动的待收以及今天的待收
+
+select *
+from balance_investor_day_investortype
+where investor_id in (
+26,10068,11194,11197,11612,13085,13516,14159,14243,14562,15044,16352,16712,17690,17973,18103,18466,18479,18627,18934,18965,19329
+,19425,20232,20501,20674,22097,22138,22302,23626,24474,24558,27652,28915,29019,29528,29846,29892,30782,31156,31294,31311,31817,32046
+,32402,32425,32453,32686,32888,32953,32959,33007,33223,33304,33354,33416,33470,33600,33627,33631,33818,33893,34119,34144,34178,34695
+,34736,34767,34847,34848,34971,35070,36230,36615,36674,36735,36750,36962,37017,37150,37231,37233,37296,37347,37397,37415,37548,37648
+,37745,37971,37979,38244,38267,38282,38610,38666,39193,40031,40099,40132,40650,41122,41225,41344,41410,41464,41940,42156,42157,42567
+,42716,45607,45768,46743,46884,46975,47021,47375,47418,48316,48736,49552,50117,50341,50767,66559,66574,67019,77417,77486,77551,77704
+,78708,79222,79811,80124,82716,83794,83943,84048,84501,86246,86339,86343,86382,86991,87140,87602,88833,89022,89213,89263,89293,89684
+,89700,89915,89920,89945,89991,92017,92065,92502,93929,93942,94528,94710,94716,95088,95799,95923,95959,96075,96133,96142,96249,96264
+,96321,96458,96459,96567,96638,96850,96886,96927,98113,98144,98152,98539,98551,99465,101521,102058,102270,102334,102404,102405,102694
+,102725,102847,103006,103010,103075,103097,103171,103172,103315,103365,103452,103846,104054,104107,104120,104155,104216,104296,104353
+,104364,104656,104716,104848,105458,105481,105517,105590,105848,106304,106402,106479,106539,106590,106887,107168,107252,107758,108023
+,108252,108282,108931,109356,110115,110408,111079,111560,114334,119325,120908,148264,148293,169571,169988,170697,171118,171122,174370
+,180159,193241,195678,200237,211756,212170,217490,220038,220217,224927,226490,228372,229567,242306,250159,265945,267684,272060,273086
+,274078,278532,278639,278679,279340,280016,280118,280380,282378,282677,283064,283980,284319,284320,284441,284443,285302,285356,285357
+,285747,286004,286468,286601,288732,291246,293544,296431,302349,302382,304190,312369,314245,324428,324635,335275,335489,336500,346764
+,349245,369600,406038,406052,413353,418948,436956,443809,448036,457514,473748,481985,518176,521245,542519,592942,598730,600617,641178
+,664490,667829,770872,816461,829770,831088,860660,872264,879719,883323,920587,940864,942118,948603,976587,977585,977738,978545,979022
+,979083,979099,979934,980540,980661,980808,981430,981544,981589,986598,990911,991468,991795,991819,992247,994678
+)
+and d in ('2018-07-07','2018-07-28','2018-08-16')
+;
+
+
+
 -- 历史待收5万
 drop table tmp_history_5w;
 create table tmp_history_5w as 
@@ -9,6 +165,13 @@ where investor_type='outer'
 group by investor_id
 ) a where capital_max>=50000
 ;
+
+
+
+
+
+
+
 
 -- 历史最高待收3-4万
 drop table tmp_history_3t4w;

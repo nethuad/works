@@ -359,8 +359,11 @@ string_agg
 
 
 
-
 */
+
+
+-- 建立ip的省份对照表
+
 
 
 -- 引用为外部链接
@@ -378,9 +381,6 @@ and json_extract_path_text(referer_ps::json,'netloc')<>''
 and json_extract_path_text(referer_ps::json,'netloc') !~'xueshandai'
 ;
 
-
-
-
 -- 外部活动链接
 
 delete from nginxlog_active_transfer WHERE d=:d;
@@ -393,7 +393,7 @@ and host='m.xueshandai.com' and path = '/active/transfer'
 ;
 
 
--- 注册链接
+-- 登记的链接
 delete from nginxlog_register_url WHERE d=:d;
 insert into nginxlog_register_url 
 select *
@@ -404,5 +404,23 @@ and (host='m.xueshandai.com' and path='/' and query ~ 'sms=[a-z1-9]+')
 ;
 
 
+-- 注册链接
+/*
+create table  nginxlog_register_urls as 
+select *
+,substring(query,'sid=([a-z1-9]+)') as register_sid
+from nginxlog_uid
+where (host ~ '(m|www)\.xueshandai\.com' and path='/register/index')
+;
+*/
+
+delete from nginxlog_register_urls WHERE d=:d;
+insert into nginxlog_register_urls
+select *
+,substring(query,'sid=([A-Za-z1-9]+)') as register_sid
+from nginxlog_uid
+where d=:d
+and (host ~ '(m|www)\.xueshandai\.com' and path='/register/index')
+;
 
 

@@ -45,3 +45,11 @@ psql -f proc/proc-member_receipt_noinvest_first_invest.sql "$db_connection"
 # 活动 nginxlog_active_transfer
 psql -f proc/proc-nginxlog_active_transfer.sql "$db_connection"
 
+# 注册页面 
+psql -f proc/proc-nginxlog_register_urls_ext.sql "$db_connection"
+
+
+# ip模块
+sh proc/ip/proc-ip-run_all.sh
+
+

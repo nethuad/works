@@ -48,10 +48,19 @@ psql -f report/report-nginx_flow_day.sql "$db_connection"
 # nginx外部流量
 psql -f report/report-nginxlog_foreign.sql "$db_connection"
 
-# nginx的注册链接统计
+# nginx的注册链接统计-- 短信链接
 psql -f report/report-nginxlog_register_url.sql "$db_connection"
+
+# 注册网址
+psql -f report/report-nginxlog_register_urls.sql "$db_connection"
+
 
 
 # 活动
 psql -f report/report-nginxlog_active_transfer.sql "$db_connection"
+
+
+# 获取省份
+psql -f report/report-nginxlog_ip_uid_province.sql "$db_connection"
+
 

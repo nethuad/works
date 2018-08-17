@@ -253,3 +253,8 @@ left outer join member_xmgj_zhaiquan b
 on a.member_id=b.payer_id
 where b.payer_id is null
 */
+
+/*
+外部链接sid表
+ad_access
+*/
