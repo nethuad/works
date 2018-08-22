@@ -26,6 +26,35 @@ left outer join ip_map_city_cache b on a.ip=b.ip
 ;
 
 
+-----
+-- 1k到1w
+drop table tmp_history_1kto1w;
+create table tmp_history_1kto1w as 
+select investor_id as member_id,capital_max
+from (
+select investor_id,max(capital) as capital_max
+from balance_investor_day_investortype
+where investor_type='outer'
+group by investor_id
+) a where capital_max>=1000 and capital_max<10000
+;
+
+drop table tmp_history_1kto1w_ip;
+create table tmp_history_1kto1w_ip as 
+select a.*,b.ip
+from tmp_history_1kto1w a 
+inner join member_last_signin_ip b on a.member_id=b.member_id
+;
+
+drop table tmp_history_1kto1w_ip_city;
+create table tmp_history_1kto1w_ip_city as 
+select a.*,b.country,b.region,b.city
+from tmp_history_1kto1w_ip a 
+left outer join ip_map_city_cache b on a.ip=b.ip
+;
+
+
+
 select count(1) as c from tmp_history_1w_ip_city where region='广东' and capital_max>=30000
 
 select city,count(1) as c from tmp_history_1w_ip_city where region='广东' and capital_max>=30000 group by city order by c desc 
@@ -46,14 +75,15 @@ group by capital_type,city
 order by capital_type,c desc 
 ;
 
-create table guangdong_history_3w_ip_city as 
-select member_id,region,city
+create table guangdong_history_1w_ip_city as 
+select member_id,region,city,capital_max
 ,case when capital_max>=50000 then '5万以上' 
  when capital_max>=30000 then '3-5万'
- when capital_max>=10000 then '1-3万'
+ when capital_max>=20000 then '2-3万'
+ when capital_max>=10000 then '1-2万'
  else '其他' end as capital_type
 from tmp_history_1w_ip_city 
-where region='广东' and capital_max>=30000 
+where region='广东' and capital_max>=10000 
 ;
 
 
@@ -61,8 +91,11 @@ where region='广东' and capital_max>=30000
 
 drop table ip_to_map_province;
 create table ip_to_map_province as 
-select distinct ip
-from tmp_history_1w_ip
+select distinct a.ip
+from tmp_history_1kto1w_ip a 
+left outer join ip_map_province_cache b on a.ip=b.ip
+where a.ip ~ '^\d+\.\d+\.\d+\.\d+$'
+and b.ip is null
 ;
 
 python3 get_ip_province.py
@@ -73,11 +106,17 @@ select *
 from ip_do_map_province
 ;
 
+insert into ip_map_province_cache
+select * 
+from ip_do_map_province
+;
+
+select count(1) as c,count(distinct ip) as uv from ip_map_province_cache 
 
 
 
 select province,count(1) as c from ip_do_map_province group by province;
-840
+
 
 
 drop table ip_list_todo;
@@ -88,11 +127,25 @@ left outer join ip_map_city_cache b on a.ip=b.ip
 where b.ip is null
 ;
 
+
 drop table ip_list_todo;
 create table ip_list_todo as 
-select ip
-from ip_do_map_province
-where province='广东省'
+select distinct a.ip
+from tmp_history_1kto1w_ip a 
+left outer join ip_map_city_cache b on a.ip=b.ip
+where b.ip is null
+and a.ip ~ '^\d+\.\d+\.\d+\.\d+$'
+;
+
+
+drop table ip_list_todo;
+create table ip_list_todo as 
+select a.*
+from ip_to_map_province a 
+left outer join ip_map_city_cache b on a.ip=b.ip
+left outer join ip_map_province_cache c on a.ip=c.ip
+where b.ip is null
+and c.province='广东省'
 ;
 
 python3 get_taobao_ip.py

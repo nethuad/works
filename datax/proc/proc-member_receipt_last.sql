@@ -69,3 +69,5 @@ where b.investor_id is null
 
 
 
+
+

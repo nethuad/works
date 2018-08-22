@@ -35,6 +35,12 @@ ARRAY[
 'wcps|wtimount|天芒云web端',
 'mcps|mp2peyeb|网贷天眼banner_m端',
 'wcps|wp2peyeb|网贷天眼banner_web端',
+'mcps|mthomson|汤姆逊m端',
+'wcps|wthomson|汤姆逊web端',
+'mcps|mqishuo|祺硕m端',
+'wcps|wqishuo|祺硕web端',
+'mcps|mairuix|艾瑞星m端',
+'wcps|wairuix|艾瑞星web端',
 'mcps|mmojifen|魔积分m端',
 'wcps|wmojifen|魔积分web端'
 ]) as a 

@@ -42,6 +42,9 @@ psql -f report/report-portrait_member_wide.sql "$db_connection"
 # 客户流失表
 psql -f report/report-member_lost.sql "$db_connection"
 
+# 回款流失表
+psql -f report/report-member_receipt_lost.sql "$db_connection"
+
 # nginx flow
 psql -f report/report-nginx_flow_day.sql "$db_connection"
 

@@ -41,6 +41,12 @@ psql -v dstat="'$d_yestoday'" -v dstatnext="'$d_today'" -f proc/proc-member_rece
 psql -f proc/proc-member_receipt_noinvest_first_invest.sql "$db_connection"
 
 
+# 回款客户分析
+psql -v dmirror="'$d_yestoday'" -v dstat="'$d_today'" -f proc/proc-member_receipt_day_last.sql "$db_connection"
+
+# 回款客户的第一笔投资
+psql -f proc/proc-member_receipt_day_last_first_invest.sql "$db_connection"
+
 
 # 活动 nginxlog_active_transfer
 psql -f proc/proc-nginxlog_active_transfer.sql "$db_connection"
