@@ -9,6 +9,7 @@ select member_id
 ,date_created 
 ,row_number() over(partition by member_id order by date_created desc) as rown
 from member_signin
+where split_part(ip,',',1) ~ '^\d+\.\d+\.\d+\.\d+$'
 )a where rown=1
 ;
 

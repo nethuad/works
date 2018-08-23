@@ -41,6 +41,8 @@ ARRAY[
 'wcps|wqishuo|祺硕web端',
 'mcps|mairuix|艾瑞星m端',
 'wcps|wairuix|艾瑞星web端',
+'mcps|myingdie|映蝶m端',
+'wcps|wyingdie|映蝶web端',
 'mcps|mmojifen|魔积分m端',
 'wcps|wmojifen|魔积分web端'
 ]) as a 

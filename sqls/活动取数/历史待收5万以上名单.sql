@@ -1,31 +1,93 @@
--- 历史待收1万以上 
-drop table tmp_history_1w;
-create table tmp_history_1w as 
+-- 历史待收1千以上 
+drop table tmp_history_max_invest;
+create table tmp_history_max_invest as 
 select investor_id as member_id,capital_max
 from (
 select investor_id,max(capital) as capital_max
 from balance_investor_day_investortype
 where investor_type='outer'
 group by investor_id
-) a where capital_max>=10000
+) a where capital_max>=1000
 ;
 
 
-drop table tmp_history_1w_ip;
-create table tmp_history_1w_ip as 
-select a.*,b.ip
-from tmp_history_1w a 
+drop table tmp_history_max_invest_ip;
+create table tmp_history_max_invest_ip as 
+select a.*
+,b.ip,b.lastsigntime
+from tmp_history_max_invest a 
 inner join member_last_signin_ip b on a.member_id=b.member_id
 ;
 
-drop table tmp_history_1w_ip_city;
-create table tmp_history_1w_ip_city as 
-select a.*,b.country,b.region,b.city
-from tmp_history_1w_ip a 
+
+-- ==================== 匹配到城市 ip_map_city_cache表中的ip->城市 ========
+
+-- 获取ip_map_city_cache中没有的ip
+drop table ip_list_todo;
+create table ip_list_todo as 
+select distinct a.ip
+from tmp_history_max_invest_ip a 
+left outer join ip_map_city_cache b on a.ip=b.ip
+where b.ip is null
+and a.ip ~ '^\d+\.\d+\.\d+\.\d+$'
+;
+
+-- 利用taobao接口获取ip
+python3 get_taobao_ip.py
+
+insert into ip_map_city_cache
+select ip
+,json_extract_path_text(info::json,'data','country') as country
+,json_extract_path_text(info::json,'data','region') as region
+,json_extract_path_text(info::json,'data','city') as city
+from ip_list_done
+where json_extract_path_text(info::json,'data','country') is not null
+;
+
+-- do 循环
+
+select count(1) as c ,count(distinct ip) as c2,count(country) as c3 from ip_map_city_cache;
+select country,count(1) as c from ip_map_city_cache group by country order by c desc ;
+select region,count(1) as c from ip_map_city_cache where country='中国' group by region order by c desc ;
+
+
+-- 匹配到城市
+
+drop table tmp_history_max_invest_ip_city;
+create table tmp_history_max_invest_ip_city as 
+select a.*
+,b.country,b.region,b.city
+from tmp_history_max_invest_ip a 
 left outer join ip_map_city_cache b on a.ip=b.ip
 ;
 
 
+-- 保存为用户的城市所在地,如果有新的再更新
+drop table member_maxinvest_ip_city_d;
+create table member_maxinvest_ip_city_d as 
+select member_id,capital_max
+,ip,lastsigntime
+,country,region,city
+,to_char(now(),'YYYY-MM-DD') as d
+from tmp_history_max_invest_ip_city
+;
+
+select count(1) as c ,count(distinct member_id) as uv from member_maxinvest_ip_city_d;
+
+-- 获取数据
+create table guangdong_history_max_invest_ip_city as 
+select member_id,region,city,capital_max
+,case when capital_max>=50000 then '5万以上' 
+ when capital_max>=30000 then '3-5万'
+ when capital_max>=20000 then '2-3万'
+ when capital_max>=10000 then '1-2万'
+ when capital_max>=1000 then '1千-1万'
+ else '其他' end as capital_type
+from tmp_history_max_invest_ip_city 
+where region='广东' and capital_max>=1000 and capital_max<30000
+
+
+-- ========================================
 -----
 -- 1k到1w
 drop table tmp_history_1kto1w;
@@ -127,15 +189,8 @@ left outer join ip_map_city_cache b on a.ip=b.ip
 where b.ip is null
 ;
 
+-- 未知城市ip
 
-drop table ip_list_todo;
-create table ip_list_todo as 
-select distinct a.ip
-from tmp_history_1kto1w_ip a 
-left outer join ip_map_city_cache b on a.ip=b.ip
-where b.ip is null
-and a.ip ~ '^\d+\.\d+\.\d+\.\d+$'
-;
 
 
 drop table ip_list_todo;
@@ -148,33 +203,7 @@ where b.ip is null
 and c.province='广东省'
 ;
 
-python3 get_taobao_ip.py
 
-
-drop table tmp1;
-create table tmp1 as 
-select ip
-,json_extract_path_text(info::json,'data','country') as country
-,json_extract_path_text(info::json,'data','region') as region
-,json_extract_path_text(info::json,'data','city') as city
-from ip_list_done;
-
-
--- create table ip_map_city_cache as 
-insert into ip_map_city_cache
-select *
-from tmp1
-where city is not null
-;
-
-select count(1) as c ,count(distinct ip) as c2 from ip_map_city_cache;
-
-drop table ip_list_todo;
-create table ip_list_todo as 
-select ip
-from tmp1
-where city is null
-;
 
 
 -------------------------------
@@ -218,12 +247,6 @@ where investor_type='outer'
 group by investor_id
 ) a where capital_max>=50000
 ;
-
-
-
-
-
-
 
 
 -- 历史最高待收3-4万
