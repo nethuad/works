@@ -1,12 +1,3 @@
-# `date +%Y-%m-%d`
-
-rdate_d=`date -d last-day +%Y-%m-%d`
-
-rdate_pt=`date -d last-day +%Y%m%d`
-
-echo d=$rdate_d
-echo pt=$rdate_pt
-
 db_connection="dbname=xueshandai user=xueshandai password=Xueshandai123$"
 
 # coupon
@@ -45,6 +36,9 @@ psql -f report/report-member_lost.sql "$db_connection"
 # 回款流失表
 psql -f report/report-member_receipt_lost.sql "$db_connection"
 
+# 回款投资扩展表
+psql -f report/report-member_receipt_day_tag_ext.sql "$db_connection"
+
 # nginx flow
 psql -f report/report-nginx_flow_day.sql "$db_connection"
 
@@ -56,7 +50,6 @@ psql -f report/report-nginxlog_register_url.sql "$db_connection"
 
 # 注册网址
 psql -f report/report-nginxlog_register_urls.sql "$db_connection"
-
 
 
 # 活动

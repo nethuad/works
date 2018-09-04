@@ -1,4 +1,4 @@
--- 历史待收1千以上 
+-- 历史待收 > xxxxxx 
 drop table tmp_history_max_invest;
 create table tmp_history_max_invest as 
 select investor_id as member_id,capital_max
@@ -7,10 +7,28 @@ select investor_id,max(capital) as capital_max
 from balance_investor_day_investortype
 where investor_type='outer'
 group by investor_id
-) a where capital_max>=1000
+) a where capital_max>=20000
 ;
 
+--6720
 
+drop table tmp_history_max_invest_city;
+create table tmp_history_max_invest_city as 
+select a.*
+,b.country,b.region,b.city
+from tmp_history_max_invest a 
+left outer join member_maxinvest_ip_city_d b on a.member_id=b.member_id
+;
+
+-- 检查是否有未匹配城市的用户
+select count(1) as c from tmp_history_max_invest_city where city is null;
+
+
+
+
+-----以下为更新用户的城市信息的过程
+
+-- a1(根据最新ip更新)
 drop table tmp_history_max_invest_ip;
 create table tmp_history_max_invest_ip as 
 select a.*
@@ -19,10 +37,24 @@ from tmp_history_max_invest a
 inner join member_last_signin_ip b on a.member_id=b.member_id
 ;
 
+-- a2（增量更新ip）
+drop table tmp_history_max_invest_ip;
+create table tmp_history_max_invest_ip as 
+select a.*
+,b.ip,b.lastsigntime
+from tmp_history_max_invest a 
+left outer join member_maxinvest_ip_city_d mc on a.member_id=mc.member_id
+inner join member_last_signin_ip b on a.member_id=b.member_id
+where mc.member_id is null
+;
+
+
+
+
 
 -- ==================== 匹配到城市 ip_map_city_cache表中的ip->城市 ========
 
--- 获取ip_map_city_cache中没有的ip
+-- (全部重新获取)获取ip_map_city_cache中没有的ip
 drop table ip_list_todo;
 create table ip_list_todo as 
 select distinct a.ip
@@ -63,8 +95,9 @@ left outer join ip_map_city_cache b on a.ip=b.ip
 
 
 -- 保存为用户的城市所在地,如果有新的再更新
-drop table member_maxinvest_ip_city_d;
-create table member_maxinvest_ip_city_d as 
+-- drop table member_maxinvest_ip_city_d;
+-- create table member_maxinvest_ip_city_d as 
+insert into member_maxinvest_ip_city_d
 select member_id,capital_max
 ,ip,lastsigntime
 ,country,region,city

@@ -1,14 +1,18 @@
 # `date +%Y-%m-%d`
 
-rdate_d=`date -d last-day +%Y-%m-%d`
-rdate_curr_d=`date +%Y-%m-%d`
+# rdate_d=`date -d last-day +%Y-%m-%d`
 
-rdate_pt=`date -d last-day +%Y%m%d`
+# rdate_pt=`date -d last-day +%Y%m%d`
+
+# rdate_curr_d=`date +%Y-%m-%d`
+
+
+rdate_d=$1
+rdate_pt=$2
+rdate_curr_d=$3
 
 db_connection="dbname=xueshandai user=xueshandai password=Xueshandai123$"
 
-echo d=$rdate_d
-echo pt=$rdate_pt
 
 
 # 企业客户

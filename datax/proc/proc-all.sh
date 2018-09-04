@@ -1,16 +1,20 @@
 # `date +%Y-%m-%d`
 
-rdate_d=`date -d last-day +%Y-%m-%d`
+# rdate_d=`date -d last-day +%Y-%m-%d`
 
-rdate_pt=`date -d last-day +%Y%m%d`
+# rdate_pt=`date -d last-day +%Y%m%d`
 
-d_yestoday=`date -d last-day +%Y-%m-%d`
+# d_today=`date +%Y-%m-%d`
 
-d_today=`date +%Y-%m-%d`
+# d_yestoday=`date -d last-day +%Y-%m-%d`
 
 
-echo d=$rdate_d
-echo pt=$rdate_pt
+rdate_d=$1
+rdate_pt=$2
+d_today=$3
+d_yestoday=$1
+
+
 
 db_connection="dbname=xueshandai user=xueshandai password=Xueshandai123$"
 
@@ -46,6 +50,9 @@ psql -v dmirror="'$d_yestoday'" -v dstat="'$d_today'" -f proc/proc-member_receip
 
 # 回款客户的第一笔投资
 psql -f proc/proc-member_receipt_day_last_first_invest.sql "$db_connection"
+
+# 回款客户综合分析
+psql -f proc/proc-member_receipt_day_tag_ext.sql "$db_connection"
 
 
 # 活动 nginxlog_active_transfer

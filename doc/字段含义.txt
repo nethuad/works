@@ -189,6 +189,7 @@ status:
 有效标判断 : status in (1,4,5,6) 
 满标判断: status in (4,5,6)
 
+正在投标的判断标记 ： select * from borrow where status =1 and is_display=1
 
 标类型:
  1. 担保标 : category='ordinary' and category_type = 'transfer'
