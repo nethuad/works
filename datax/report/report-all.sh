@@ -60,3 +60,7 @@ psql -f report/report-nginxlog_active_transfer.sql "$db_connection"
 psql -f report/report-nginxlog_ip_uid_province.sql "$db_connection"
 
 
+
+
+
+

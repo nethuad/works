@@ -27,9 +27,10 @@ group by to_char(a.date_created::timestamp,'YYYY-MM-DD'),investor_id
 full join (
 select to_char(receipt_time::timestamp,'YYYY-MM-DD') as d 
 ,investor_id
-,sum(total) as total
-from receipt_history
-where receipt_time>='2018-01-01' and receipt_time<to_char(now(),'YYYY-MM-DD')
+,sum(fact_receipt_balance+fact_receipt_fee) as total
+from receipt_detail
+where status in (4) 
+and (receipt_time>='2018-01-01' and receipt_time<to_char(now(),'YYYY-MM-DD'))
 group by to_char(receipt_time::timestamp,'YYYY-MM-DD'),investor_id
 ) b on a.d = b.d and a.investor_id = b.investor_id
 

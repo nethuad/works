@@ -12,13 +12,16 @@ select a.id as member_id
 ,mi.birthday,mi.age,mi.gender,mi.current_address
 ,case when bi_t.investor_id is not null then 1 else 0 end as is_investor
 ,bi_t.invest_times as invest_times
+,bi_t.invest_capital as invest_capital
 ,bi_f.borrow_type as borrow_type_firstinvest
 ,bi_f.capital as capital_firstinvest
+,bi_f.invest_date as first_invest_date
 ,bi_f.reg_invest_span_days as reg_invest_span_days_firstinvest
 from member a
 left outer join recommend r on a.id=r.member_id
 left outer join (select * from borrow_invest_wide_correct where invest_order=1) bi_f on a.id=bi_f.investor_id
-left outer join (select investor_id,count(1) as invest_times from borrow_invest_wide_correct group by investor_id) bi_t on a.id=bi_t.investor_id
+left outer join (select investor_id,count(1) as invest_times,sum(capital) as invest_capital 
+    from borrow_invest_wide_correct group by investor_id) bi_t on a.id=bi_t.investor_id
 left outer join member_identify mid on a.id=mid.member_id
 left outer join member_vip_map mv on a.id=mv.member_id
 left outer join member_info_map mi on mid.member_id=mi.member_id  --根据认证结果匹配用户信息表
