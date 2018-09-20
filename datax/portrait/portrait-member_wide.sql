@@ -28,6 +28,17 @@ left outer join member_info_map mi on mid.member_id=mi.member_id  --根据认证
 ;
 
 
+drop table portrait_member_wide_analys;
+create table portrait_member_wide_analys as 
+select member_id,real_name,uname,username
+,reg_time,is_valid_idcard,reg_way,is_recommended,recommender_id,is_identified,date_identified
+,grade_name,birthday,age,gender,idcard_region
+,is_investor,invest_times,invest_capital,borrow_type_firstinvest,capital_firstinvest,first_invest_date
+from portrait_member_wide
+;
+
+
+
 -- select a.member_id,real_name,uname,username,mobile,idcard,reg_time,is_valid_idcard,is_admin,reg_way,is_recommended,a.recommender_id,is_inner
 -- ,b.birthday,b.gender
 -- ,ma.cash_available,ma.cash_freeze
@@ -59,3 +70,5 @@ left outer join member_info_map mi on mid.member_id=mi.member_id  --根据认证
 -- left outer join p_member_receipt_base mr on a.member_id = mr.investor_id
 -- left outer join (select * from p_member_receipt_row_base where receipt_order_desc=1) mrl on a.member_id = mrl.investor_id
 -- ; 
+
+
