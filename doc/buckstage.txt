@@ -1,8 +1,0 @@
-buckstage:
-
-系统管理：用户条件设置
-
-会员管理：会员条件查询
-
-
-https://backstage.xueshandai.com/job/getBalance?memberId=9807
